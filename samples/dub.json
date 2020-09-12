@@ -1,0 +1,116 @@
+{
+	"name": "samples",
+	"authors": [
+		"ryuukk_"
+	],
+	"description": "game framework",
+	"copyright": "Copyright © 2019, ryuukk_",
+	"license": "proprietary",
+
+	"targetName":"samples",
+	"targetType": "executable",
+	"targetPath": "bin",
+	"workingDirectory": "bin",
+
+	"dependencies": {
+		"bindbc-glfw": "0.10.0",
+		"bindbc-loader": "0.3.1",
+		"bindbc-openal": "0.4.1",
+		"bindbc-opengl": "0.13.0",
+		"stb": "1.7.6",
+		"dark": {"path":"../", "version": "~master"}
+	},
+	"versions": [
+		"GL_33",
+		"GLFW_32"
+	],
+	
+	"buildTypes": {
+		"release": {
+			"buildOptions": [
+				"releaseMode",
+				"inline",
+				"optimize",
+				"noBoundsCheck",
+				"debugInfo"
+			],
+			"dflags": [
+				"-O",
+				"-mcpu=native",
+				"-release",
+				"-boundscheck=off"
+			]
+		},
+		"debug_gc": {
+            "buildOptions": ["debugMode", "debugInfo"],
+			"dflags":["-profile=gc"]
+		},
+		"debug": {
+            "buildOptions": ["debugMode", "debugInfo"]
+		}
+    },
+    
+
+    "configurations": [
+        {
+            "name": "hello",
+            "sourcePaths": [
+                "01_hello/src"
+            ]
+        },
+        {
+            "name": "input",
+            "sourcePaths": [
+                "02_input/src"
+            ]
+        },
+        {
+            "name": "triangle",
+            "sourcePaths": [
+                "03_triangle/src"
+            ]
+        },
+        {
+            "name": "textured_quad",
+            "sourcePaths": [
+                "04_textured_quad/src"
+            ]
+        },
+        {
+            "name": "spritebatch",
+            "sourcePaths": [
+                "05_spritebatch/src"
+            ]
+        },
+        {
+            "name": "cube",
+            "sourcePaths": [
+                "06_cube/src"
+            ]
+        },
+        {
+            "name": "model",
+            "sourcePaths": [
+                "07_model/src"
+            ]
+        },
+        {
+            "name": "renderbatch",
+            "sourcePaths": [
+                "08_renderbatch/src"
+            ]
+        },
+        {
+            "name": "skeletal_animation",
+            "sourcePaths": [
+                "09_skeletal_animation/src"
+            ]
+        },
+        {
+            "name": "experiments",
+            "sourcePaths": [
+                "99_experiments/src"
+            ]
+        }
+    ]
+}
