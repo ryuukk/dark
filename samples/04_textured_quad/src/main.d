@@ -10,7 +10,7 @@ import darc.core;
 import darc.engine;
 import darc.input;
 import darc.math;
-import darc.gfx.shader;
+import darc.gfx.shader_program;
 import darc.gfx.buffers;
 import darc.gfx.mesh;
 import darc.gfx.texture;

@@ -118,7 +118,7 @@ public class MyGame : IApp
     {
         _a += dt * 10;
 
-        _cubeTransform.set(Vec3(), Quat.fromAxis(1,1,1, _a));
+        _cubeTransform = Mat4.set(Vec3(), Quat.fromAxis(1,1,1, _a), Vec3(1,1,1));
     }
 
     public void render(float dt)

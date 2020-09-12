@@ -42,7 +42,7 @@ public class MyGame : IApp
         _cam.update();
 
         {
-            auto data = loadModelData("data/knight.g3dj");
+            auto data = loadModelData("data/models/knight.g3dj");
             assert(data !is null, "can't parse data");
 
             _model = new Model;
