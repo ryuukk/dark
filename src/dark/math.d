@@ -36,6 +36,10 @@ public struct Vec3
     public float y = 0f;
     public float z = 0f;
 
+    public static Vec3 unitX = Vec3(1,0,0);
+    public static Vec3 unitY = Vec3(0,1,0);
+    public static Vec3 unitZ = Vec3(0,0,1);
+
     public static @property Vec3 X()
     {
         return Vec3(1, 0, 0);
@@ -92,13 +96,6 @@ public struct Vec3
     {
         return Vec3(y * vector.z - z * vector.y, z * vector.x - x * vector.z,
                 x * vector.y - y * vector.x);
-    }
-
-    pragma(inline);
-    public Vec3 rotate(in Vec3 axis, float degrees)
-    {
-        // todo: finish
-        return Vec3();
     }
 
     pragma(inline);

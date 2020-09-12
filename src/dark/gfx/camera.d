@@ -51,10 +51,10 @@ public abstract class Camera
         up = tmpVec.crs(direction).nor();
     }
 
-    public void rotate(Vec3 axis, float angle)
+    public void rotate(in Vec3 axis, float angle)
     {
-        direction.rotate(axis, angle);
-        up.rotate(axis, angle);
+            direction = Vec3.rotate(direction, axis, angle);
+            up = Vec3.rotate(up, axis, angle);
     }
 }
 
