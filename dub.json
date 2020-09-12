@@ -12,7 +12,7 @@
 	"sourcePaths": [
 		"src/"
 	],
-	"targetName": "arc",
+	"targetName": "darc",
 	"targetType": "sourceLibrary",
 	"versions": [
 		"GL_33",
