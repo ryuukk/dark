@@ -49,7 +49,7 @@ void main()
 }
 ";
 
-public class MyGame : IApp
+class MyGame : IApp
 {
     PerspectiveCamera _cam;
     Mesh _mesh;
@@ -57,7 +57,7 @@ public class MyGame : IApp
     Mat4 _cubeTransform = Mat4.identity;
     float _a = 0f;
 
-    public void create()
+    void create()
     {
         _cam = new PerspectiveCamera(67, Core.graphics.getWidth(), Core.graphics.getHeight());
         _cam.near = 1f;
@@ -114,14 +114,14 @@ public class MyGame : IApp
     }
 
 
-    public void update(float dt)
+    void update(float dt)
     {
         _a += dt * 10;
 
         _cubeTransform = Mat4.set(Vec3(), Quat.fromAxis(1,1,1, _a), Vec3(1,1,1));
     }
 
-    public void render(float dt)
+    void render(float dt)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -140,13 +140,13 @@ public class MyGame : IApp
         _shader.end();
     }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {
         _cam.viewportWidth = width;
         _cam.viewportHeight = height;
     }
 
-    public void dispose()
+    void dispose()
     {
     }
 }

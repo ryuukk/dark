@@ -12,9 +12,9 @@ import dark.engine;
 import dark.input;
 import dark.math;
 
-public class MyGame : IApp
+class MyGame : IApp
 {
-    public void create()
+    void create()
     {
         auto p = new class IInputProcessor
         {
@@ -70,16 +70,16 @@ public class MyGame : IApp
         Core.input.setInputProcessor(p);
     }
 
-    public void update(float dt)
+    void update(float dt)
     { }
 
-    public void render(float dt)
+    void render(float dt)
     { }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     { }
 
-    public void dispose()
+    void dispose()
     { }
 }
 

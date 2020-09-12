@@ -15,7 +15,7 @@ import dark.gfx.buffers;
 import dark.gfx.mesh;
 import dark.gfx.texture;
 
-public class MyGame : IApp
+class MyGame : IApp
 {
     string vs = "
 #version 330
@@ -48,7 +48,7 @@ void main() {
     Mesh _mesh;
     Texture2D _tex;
 
-    public void create()
+    void create()
     {
         _tex = Texture2D.fromFile("data/bg_stars.png");
 
@@ -77,11 +77,11 @@ void main() {
         assert(_shader.isCompiled(), _shader.getLog());
     }
 
-    public void update(float dt)
+    void update(float dt)
     {
     }
 
-    public void render(float dt)
+    void render(float dt)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -96,11 +96,11 @@ void main() {
         _shader.end();
     }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {
     }
 
-    public void dispose()
+    void dispose()
     {
     }
 }

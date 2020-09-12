@@ -20,7 +20,7 @@ import dark.gfx.model_loader;
 import dark.gfx.rendering;
 import dark.gfx.animation;
 
-public class Entity
+class Entity
 {
     public int id;
 
@@ -64,7 +64,7 @@ public class Entity
     }
 }
 
-public class MyGame : IApp
+class MyGame : IApp
 {
     CameraController _controller;
     PerspectiveCamera _cam;
@@ -75,7 +75,7 @@ public class MyGame : IApp
 
     RenderableBatch _batch;
 
-    public void create()
+    void create()
     {
         writeln("create");
 
@@ -189,7 +189,7 @@ public class MyGame : IApp
     int fpsAcc = 0;
     int c = 0;
     float timer = 0.0f;
-    public void update(float dt)
+    void update(float dt)
     {
         auto fps = Core.graphics.fps();
         fpsAcc += fps;
@@ -218,7 +218,7 @@ public class MyGame : IApp
         _controller.update(dt);
     }
 
-    public void render(float dt)
+    void render(float dt)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -235,59 +235,23 @@ public class MyGame : IApp
         _batch.end();
     }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {
         _cam.viewportWidth = width;
         _cam.viewportHeight = height;
     }
 
-    public void dispose()
+    void dispose()
     {
     }
 }
 
-
-extern(C) __gshared string[] rt_options = [
-    //"gcopt=gc:precise initReserve:32 incPoolSize:16 minPoolSize:1 maxPoolSize:64 cleanup:finalize heapSizeFactor=1.2 profile:1 help"
-      "gcopt=gc:precise initReserve:8 incPoolSize:16 minPoolSize:1 maxPoolSize:32 cleanup:finalize heapSizeFactor=1.2 profile:1 help"
-     // "gcopt=gc:precise profile:1 help"
-];
-
-
-class Node 
-{}
-
-struct Transform
-{}
-
-
-void test(Transform[Node]* map, Node node)
-{
-    if( node in *map)
-    {
-        (*map)[node] = Transform();
-    }
-}
-
- static Node node;
- static Transform[Node] map;
 void main()
 {
-    
-    //import core.thread;
-    //node = new Node;
-    //while(true)
-    //{
-    //    test(&map, node);
-    //    //Thread.sleep(dur!("msecs")(1));
-    //}
-
-
     auto config = new Configuration;
     config.windowTitle = "Sample 08 - RenderableBatch";
     config.vsync = false;
     auto game = new MyGame;
     auto engine = new Engine(game, config);
     engine.run();
-
 }

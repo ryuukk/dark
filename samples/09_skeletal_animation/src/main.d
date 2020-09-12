@@ -22,7 +22,7 @@ import dark.gfx.rendering;
 import dark.gfx.animation;
 import dark.gfx.renderable;
 
-public class MyGame : IApp
+class MyGame : IApp
 {
     PerspectiveCamera _cam;
     Model _model;
@@ -35,7 +35,7 @@ public class MyGame : IApp
     RenderableBatch _batch;
     ShaderProgram _program;
 
-    public void create()
+    void create()
     {
         _cam = new PerspectiveCamera(67, Core.graphics.getWidth(), Core.graphics.getHeight());
         _cam.position = Vec3(0, 0, 1);
@@ -59,14 +59,14 @@ public class MyGame : IApp
         GC.collect();
     }
 
-    public void update(float dt)
+    void update(float dt)
     {
         _a += dt * 2;
         
         _animController.update(dt);
     }
 
-    public void render(float dt)
+    void render(float dt)
     {
         _a += dt;
 
@@ -125,13 +125,13 @@ public class MyGame : IApp
             renderNode(child);
     }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {
         _cam.viewportWidth = width;
         _cam.viewportHeight = height;
     }
 
-    public void dispose()
+    void dispose()
     {
     }
 }

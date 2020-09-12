@@ -1,44 +1,24 @@
 import std.stdio;
 
-import arc;
-import dark.gfx.batch;
-import dark.gfx.texture;
-import dark.collections;
+import dark;
 
-public class Entity{}
-public class MyGame : IApp
+class MyGame : IApp
 {
-    SpriteBatch batch;
-    TextureRegion region;
-    Array!Entity entities;
-    public void create()
+    void create()
     {
         writeln("Hi!");
-
-        entities = new Array!Entity;
-        batch = new SpriteBatch;
-
-        auto entity = new Entity;
-        entities.add(entity);
-        
-
-        entities.remove(entity);
-
     }
 
-    public void update(float dt)
+    void update(float dt)
     { }
 
-    public void render(float dt)
-    { 
-        batch.begin();
-        batch.end();
-    }
+    void render(float dt)
+    {  }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     { }
 
-    public void dispose()
+    void dispose()
     { }
 }
 

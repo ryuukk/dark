@@ -17,13 +17,13 @@ import dark.gfx.texture;
 import dark.gfx.batch;
 import dark.gfx.camera;
 
-public class MyGame : IApp
+class MyGame : IApp
 {
     Texture2D _tex;
     OrthographicCamera _cam;
     SpriteBatch _batch;
 
-    public void create()
+    void create()
     {
         _tex = Texture2D.fromFile("data/bg_stars.png");
 
@@ -34,11 +34,11 @@ public class MyGame : IApp
         _batch = new SpriteBatch();
     }
 
-    public void update(float dt)
+    void update(float dt)
     {
     }
 
-    public void render(float dt)
+    void render(float dt)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -63,13 +63,13 @@ public class MyGame : IApp
         //writeln(format("SpriteBatch > RenderCalls: %s Total: %s", _batch.renderCalls, _batch.totalRenderCalls));
     }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {
         _cam.viewportWidth = width;
         _cam.viewportHeight = height;
     }
 
-    public void dispose()
+    void dispose()
     {
     }
 }

@@ -8,27 +8,27 @@ import dark.engine;
 import dark.input;
 import dark.math;
 
-public class MyGame : IApp
+class MyGame : IApp
 {
-    public void create()
+    void create()
     {
     }
 
-    public void update(float dt)
+    void update(float dt)
     {
     }
 
-    public void render(float dt)
+    void render(float dt)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     }
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {
     }
 
-    public void dispose()
+    void dispose()
     {
     }
 }
