@@ -3,10 +3,10 @@ import std.stdio;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.engine;
-import darc.input;
-import darc.math;
+import dark.core;
+import dark.engine;
+import dark.input;
+import dark.math;
 
 public class MyGame : IApp
 {

@@ -1,6 +1,6 @@
-module darc.collections;
+module dark.collections;
 
-public import darc.collections.array;
-public import darc.collections.queue;
-public import darc.collections.hashmap;
-public import darc.collections.array_map;
+public import dark.collections.array;
+public import dark.collections.queue;
+public import dark.collections.hashmap;
+public import dark.collections.array_map;

@@ -1,8 +1,8 @@
-module darc.gfx.mesh_part;
+module dark.gfx.mesh_part;
 
-import darc.math;
-import darc.gfx.shader_program;
-import darc.gfx.mesh;
+import dark.math;
+import dark.gfx.shader_program;
+import dark.gfx.mesh;
 
 public class MeshPart
 {

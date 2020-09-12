@@ -1,4 +1,4 @@
-module darc.pool;
+module dark.pool;
 
 import std.container;
 import std.math;

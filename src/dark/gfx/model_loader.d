@@ -1,4 +1,4 @@
-module darc.gfx.model_loader;
+module dark.gfx.model_loader;
 
 import std.json;
 import std.stdio;
@@ -8,18 +8,18 @@ import std.path;
 import std.file : readText;
 import std.datetime.stopwatch;
 
-import darc.pool;
-import darc.math;
-import darc.color;
-import darc.core;
-import darc.collections;
-import darc.gfx.node;
-import darc.gfx.material;
-import darc.gfx.animation;
-import darc.gfx.mesh;
-import darc.gfx.buffers;
-import darc.gfx.node;
-import darc.gfx.renderable;
+import dark.pool;
+import dark.math;
+import dark.color;
+import dark.core;
+import dark.collections;
+import dark.gfx.node;
+import dark.gfx.material;
+import dark.gfx.animation;
+import dark.gfx.mesh;
+import dark.gfx.buffers;
+import dark.gfx.node;
+import dark.gfx.renderable;
 
 
 // data for serialization

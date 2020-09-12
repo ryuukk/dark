@@ -1,2 +1,2 @@
-module darc.utils;
+module dark.utils;
 

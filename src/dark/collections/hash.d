@@ -1,4 +1,4 @@
-module darc.collections.hash;
+module dark.collections.hash;
 
 import std.traits;
 

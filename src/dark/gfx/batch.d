@@ -1,4 +1,4 @@
-module darc.gfx.batch;
+module dark.gfx.batch;
 
 import std.algorithm.comparison : min, max;
 
@@ -7,13 +7,13 @@ import std.format;
 
 import bindbc.opengl;
 
-import darc.gfx.shader_program;
-import darc.gfx.buffers;
-import darc.gfx.texture;
-import darc.gfx.mesh;
-import darc.color;
-import darc.core;
-import darc.math;
+import dark.gfx.shader_program;
+import dark.gfx.buffers;
+import dark.gfx.texture;
+import dark.gfx.mesh;
+import dark.color;
+import dark.core;
+import dark.math;
 
 string vs = "
 #version 330

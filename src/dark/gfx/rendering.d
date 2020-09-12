@@ -1,17 +1,17 @@
-module darc.gfx.rendering;
+module dark.gfx.rendering;
 
 import std.stdio;
 import std.container;
 import bindbc.opengl;
 
-import darc.pool;
-import darc.math;
-import darc.gfx.texture;
-import darc.gfx.renderable;
-import darc.gfx.camera;
-import darc.gfx.shader;
-import darc.gfx.shader_provider;
-import darc.gfx.model_instance;
+import dark.pool;
+import dark.math;
+import dark.gfx.texture;
+import dark.gfx.renderable;
+import dark.gfx.camera;
+import dark.gfx.shader;
+import dark.gfx.shader_provider;
+import dark.gfx.model_instance;
 
 public class RenderContext
 {

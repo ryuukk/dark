@@ -6,16 +6,16 @@ import core.memory;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.engine;
-import darc.input;
-import darc.math;
-import darc.gfx.shader;
-import darc.gfx.buffers;
-import darc.gfx.mesh;
-import darc.gfx.texture;
-import darc.gfx.batch;
-import darc.gfx.camera;
+import dark.core;
+import dark.engine;
+import dark.input;
+import dark.math;
+import dark.gfx.shader;
+import dark.gfx.buffers;
+import dark.gfx.mesh;
+import dark.gfx.texture;
+import dark.gfx.batch;
+import dark.gfx.camera;
 
 public class MyGame : IApp
 {

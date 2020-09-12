@@ -6,17 +6,18 @@
 	],
 	"copyright": "Copyright © 2020, ryuukk_",
 	
+	"targetName": "dark",
+	"targetType": "sourceLibrary",
+	"versions": [
+		"GL_33",
+		"GLFW_32"
+	],
+
 	"importPaths": [
 		"src/"
 	],
 	"sourcePaths": [
 		"src/"
-	],
-	"targetName": "darc",
-	"targetType": "sourceLibrary",
-	"versions": [
-		"GL_33",
-		"GLFW_32"
 	],
 	
 	"dependencies": {

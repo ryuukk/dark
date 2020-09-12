@@ -1,6 +1,6 @@
-module darc.gfx.font;
+module dark.gfx.font;
 
-import darc.gfx.texture;
+import dark.gfx.texture;
 
 
 struct GlyphRun

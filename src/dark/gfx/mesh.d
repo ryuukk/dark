@@ -1,13 +1,13 @@
-module darc.gfx.mesh;
+module dark.gfx.mesh;
 
 import std.stdio;
 import std.format;
 
 import bindbc.opengl;
 
-import darc.math;
-import darc.gfx.shader_program;
-import darc.gfx.buffers;
+import dark.math;
+import dark.gfx.shader_program;
+import dark.gfx.buffers;
 
 public class Mesh
 {

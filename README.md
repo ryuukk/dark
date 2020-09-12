@@ -9,7 +9,7 @@
 ```D
 import std.stdio;
 
-import darc;
+import dark;
 
 int main()
 {

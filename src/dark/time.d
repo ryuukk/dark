@@ -1,4 +1,4 @@
-module darc.time;
+module dark.time;
 
 import std.stdio;
 import std.conv;

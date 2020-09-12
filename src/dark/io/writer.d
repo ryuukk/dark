@@ -1,4 +1,4 @@
-module darc.io.writer;
+module dark.io.writer;
 
 import std.stdio;
 import std.bitmanip;

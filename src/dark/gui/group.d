@@ -1,6 +1,6 @@
-module darc.gui.group;
+module dark.gui.group;
 
-import darc.gui.element;
+import dark.gui.element;
 
 public class Group : Element
 {}

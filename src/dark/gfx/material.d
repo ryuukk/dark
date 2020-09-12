@@ -1,7 +1,7 @@
-module darc.gfx.material;
+module dark.gfx.material;
 
-import darc.color;
-import darc.gfx.texture;
+import dark.color;
+import dark.gfx.texture;
 
 public abstract class Attribute
 {

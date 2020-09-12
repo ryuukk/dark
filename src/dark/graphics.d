@@ -1,4 +1,4 @@
-module darc.graphics;
+module dark.graphics;
 
 import std.stdio;
 import std.conv;
@@ -8,8 +8,8 @@ import std.datetime.stopwatch : benchmark, StopWatch, AutoStart;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.engine;
+import dark.core;
+import dark.engine;
 
 extern (C) void onFrameBufferResize(GLFWwindow* window, int width, int height) nothrow
 {
@@ -17,6 +17,7 @@ extern (C) void onFrameBufferResize(GLFWwindow* window, int width, int height) n
 	{
 		//writeln(format("EVENT: onResize(%s, %s)", width, height));
 
+		
 		Core.graphics.updateBackbufferInfo();
 
 		if (!Core.graphics.isInitialized())

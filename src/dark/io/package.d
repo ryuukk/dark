@@ -1,7 +1,7 @@
-module darc.io;
+module dark.io;
 
-public import darc.io.reader;
-public import darc.io.writer;
+public import dark.io.reader;
+public import dark.io.writer;
 
 import std.stdio;
 import std.bitmanip;

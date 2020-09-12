@@ -1,4 +1,4 @@
-module darc.collections.hashmap;
+module dark.collections.hashmap;
 
 version (TestingContainers)
 {
@@ -18,8 +18,8 @@ private import std.experimental.allocator;
 private import std.experimental.allocator.mallocator : Mallocator;
 private import std.experimental.allocator.gc_allocator;
 
-private import darc.collections.internal;
-public import darc.collections.hash;
+private import dark.collections.internal;
+public import dark.collections.hash;
 
 class KeyNotFound : Exception
 {

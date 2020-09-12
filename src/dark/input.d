@@ -1,4 +1,4 @@
-module darc.input;
+module dark.input;
 
 import std.stdio;
 import std.conv;
@@ -9,9 +9,9 @@ import std.math;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.graphics;
-import darc.time;
+import dark.core;
+import dark.graphics;
+import dark.time;
 
 extern (C) void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) nothrow
 {
@@ -791,7 +791,7 @@ public interface IInputProcessor
 // todo: optimize array shit
 public class InputEventQueue : IInputProcessor
 {
-    import darc.collections.array;
+    import dark.collections.array;
 
     static private immutable int SKIP = -1;
     static private immutable int KEY_DOWN = 0;

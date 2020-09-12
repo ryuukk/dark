@@ -1,14 +1,14 @@
-module darc.gfx.animation;
+module dark.gfx.animation;
 
 import std.stdio;
 import std.math;
 
-import darc.collections.hashmap;
+import dark.collections.hashmap;
 
-import darc.math;
-import darc.gfx.node;
-import darc.gfx.model_instance;
-import darc.pool;
+import dark.math;
+import dark.gfx.node;
+import dark.gfx.model_instance;
+import dark.pool;
 
 public class Animation
 {

@@ -1,4 +1,4 @@
-module darc.math;
+module dark.math;
 
 import std.math;
 import std.range;

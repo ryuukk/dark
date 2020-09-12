@@ -1,4 +1,4 @@
-module arc;
+module dark;
 
-public import darc.core;
-public import darc.engine;
+public import dark.core;
+public import dark.engine;

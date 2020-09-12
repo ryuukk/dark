@@ -1,4 +1,4 @@
-module darc.collections.array_map;
+module dark.collections.array_map;
 
 import std.math;
 import std.algorithm.comparison;

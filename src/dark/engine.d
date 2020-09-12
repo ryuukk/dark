@@ -1,4 +1,4 @@
-module darc.engine;
+module dark.engine;
 
 import std.stdio;
 import std.format;
@@ -7,10 +7,10 @@ import std.experimental.logger;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.graphics;
-import darc.audio;
-import darc.input;
+import dark.core;
+import dark.graphics;
+import dark.audio;
+import dark.input;
 
 public class Configuration
 {

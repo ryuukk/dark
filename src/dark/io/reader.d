@@ -1,4 +1,4 @@
-module darc.io.reader;
+module dark.io.reader;
 
 import std.stdio;
 import std.bitmanip;

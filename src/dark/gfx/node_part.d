@@ -1,14 +1,14 @@
-module darc.gfx.node_part;
+module dark.gfx.node_part;
 
 import std.stdio;
 import std.algorithm;
 import std.typecons;
 
-import darc.gfx.node;
-import darc.gfx.mesh_part;
-import darc.gfx.material;
-import darc.gfx.renderable;
-import darc.math;
+import dark.gfx.node;
+import dark.gfx.mesh_part;
+import dark.gfx.material;
+import dark.gfx.renderable;
+import dark.math;
 
 public struct InvBoneBind
 {

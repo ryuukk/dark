@@ -1,9 +1,9 @@
 import std.stdio;
 
 import arc;
-import darc.gfx.batch;
-import darc.gfx.texture;
-import darc.collections;
+import dark.gfx.batch;
+import dark.gfx.texture;
+import dark.collections;
 
 public class Entity{}
 public class MyGame : IApp

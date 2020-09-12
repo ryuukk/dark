@@ -1,4 +1,4 @@
-module darc.gfx.texture;
+module dark.gfx.texture;
 
 import std.stdio;
 import std.format;
@@ -7,7 +7,7 @@ import std.math;
 import bindbc.opengl;
 import bindbc.opengl.gl;
 import stb.image;
-import darc.math;
+import dark.math;
 
 public enum TextureFilter
 {

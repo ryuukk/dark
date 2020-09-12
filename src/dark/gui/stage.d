@@ -1,4 +1,4 @@
-module darc.gui.stage;
+module dark.gui.stage;
 
 public class Stage
 {

@@ -1,4 +1,4 @@
-module darc.collections.internal;
+module dark.collections.internal;
 
 private import std.typecons;
 private import std.traits;

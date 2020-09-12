@@ -5,22 +5,22 @@ import std.file : readText;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.engine;
-import darc.math;
-import darc.gfx.shader;
-import darc.gfx.shader_provider;
-import darc.gfx.shader_program;
-import darc.gfx.camera;
-import darc.gfx.node;
-import darc.gfx.node_part;
-import darc.gfx.material;
-import darc.gfx.model;
-import darc.gfx.model_instance;
-import darc.gfx.model_loader;
-import darc.gfx.rendering;
-import darc.gfx.animation;
-import darc.gfx.renderable;
+import dark.core;
+import dark.engine;
+import dark.math;
+import dark.gfx.shader;
+import dark.gfx.shader_provider;
+import dark.gfx.shader_program;
+import dark.gfx.camera;
+import dark.gfx.node;
+import dark.gfx.node_part;
+import dark.gfx.material;
+import dark.gfx.model;
+import dark.gfx.model_instance;
+import dark.gfx.model_loader;
+import dark.gfx.rendering;
+import dark.gfx.animation;
+import dark.gfx.renderable;
 
 public class MyGame : IApp
 {

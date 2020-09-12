@@ -1,4 +1,4 @@
-module darc.color;
+module dark.color;
 
 public struct Color
 {

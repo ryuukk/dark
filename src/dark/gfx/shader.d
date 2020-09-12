@@ -1,4 +1,4 @@
-module darc.gfx.shader;
+module dark.gfx.shader;
 
 import std.conv : text;
 import std.format;
@@ -7,14 +7,14 @@ import core.math;
 
 import bindbc.opengl;
 
-import darc.gfx.camera;
-import darc.gfx.rendering;
-import darc.gfx.material;
-import darc.gfx.mesh;
-import darc.gfx.buffers;
-import darc.gfx.renderable;
-import darc.gfx.shader_program;
-import darc.math;
+import dark.gfx.camera;
+import dark.gfx.rendering;
+import dark.gfx.material;
+import dark.gfx.mesh;
+import dark.gfx.buffers;
+import dark.gfx.renderable;
+import dark.gfx.shader_program;
+import dark.math;
 
 public interface IShader
 {

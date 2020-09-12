@@ -1,10 +1,10 @@
-module darc.gui.element;
+module dark.gui.element;
 
-import darc.color;
-import darc.math;
-import darc.gui.stage;
-import darc.gui.group;
-import darc.gfx.batch;
+import dark.color;
+import dark.math;
+import dark.gui.stage;
+import dark.gui.group;
+import dark.gfx.batch;
 
 public enum Touchable
 {

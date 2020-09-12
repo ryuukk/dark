@@ -1,9 +1,9 @@
-module darc.util.camera_controller;
+module dark.util.camera_controller;
 
-import darc.gfx.camera;
-import darc.math;
-import darc.input;
-import darc.core;
+import dark.gfx.camera;
+import dark.math;
+import dark.input;
+import dark.core;
 
 class CameraController : InputAdapter
 {

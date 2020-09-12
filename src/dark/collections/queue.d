@@ -1,4 +1,4 @@
-module darc.collections.queue;
+module dark.collections.queue;
 
 
 // todo: make it a struct

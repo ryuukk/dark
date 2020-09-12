@@ -1,17 +1,17 @@
-module darc.gfx.node;
+module dark.gfx.node;
 
 import std.stdio;
 import std.algorithm;
 import std.typecons;
 
-import darc.math;
-import darc.collections;
-import darc.gfx.node;
-import darc.gfx.node_part;
-import darc.gfx.mesh;
-import darc.gfx.mesh_part;
-import darc.gfx.material;
-import darc.gfx.renderable;
+import dark.math;
+import dark.collections;
+import dark.gfx.node;
+import dark.gfx.node_part;
+import dark.gfx.mesh;
+import dark.gfx.mesh_part;
+import dark.gfx.material;
+import dark.gfx.renderable;
 
 public class Node
 {

@@ -1,4 +1,4 @@
-module darc.core;
+module dark.core;
 
 import std.stdio;
 import std.conv;
@@ -11,9 +11,9 @@ import std.experimental.logger;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.graphics;
-import darc.audio;
-import darc.input;
+import dark.graphics;
+import dark.audio;
+import dark.input;
 
 public class Core
 {

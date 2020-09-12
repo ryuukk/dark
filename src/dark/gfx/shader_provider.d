@@ -1,8 +1,8 @@
-module darc.gfx.shader_provider;
+module dark.gfx.shader_provider;
 
-import darc.gfx.shader;
-import darc.gfx.shader_program;
-import darc.gfx.renderable;
+import dark.gfx.shader;
+import dark.gfx.shader_program;
+import dark.gfx.renderable;
 
 
 public interface IShaderProvider

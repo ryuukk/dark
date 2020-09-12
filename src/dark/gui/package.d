@@ -1,8 +1,8 @@
-module darc.guid;
+module dark.guid;
 
 public 
 {
-    import darc.gui.element;
-    import darc.gui.stage;
-    import darc.gui.group;
+    import dark.gui.element;
+    import dark.gui.stage;
+    import dark.gui.group;
 }

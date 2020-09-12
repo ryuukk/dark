@@ -1,12 +1,12 @@
-module darc.gfx.renderable;
+module dark.gfx.renderable;
 
 import std.container;
 
-import darc.pool;
-import darc.math;
-import darc.gfx.material;
-import darc.gfx.mesh_part;
-import darc.gfx.shader;
+import dark.pool;
+import dark.math;
+import dark.gfx.material;
+import dark.gfx.mesh_part;
+import dark.gfx.shader;
 
 public class Renderable : IPoolable
 {

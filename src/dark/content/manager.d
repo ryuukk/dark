@@ -1,4 +1,4 @@
-module darc.content;
+module dark.content;
 
 import std.stdio;
 

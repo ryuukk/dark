@@ -13,14 +13,15 @@
 	"workingDirectory": "bin",
 
 	"dependencies": {
+		"dark": {"path":"../", "version": "~master"},
 		"bindbc-glfw": "0.10.0",
 		"bindbc-loader": "0.3.1",
 		"bindbc-openal": "0.4.1",
 		"bindbc-opengl": "0.13.0",
-		"stb": "1.7.6",
-		"dark": {"path":"../", "version": "~master"}
+		"stb": "1.7.6"
 	},
-	"versions": [
+
+    "versions": [
 		"GL_33",
 		"GLFW_32"
 	],

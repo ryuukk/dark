@@ -1,6 +1,6 @@
-module darc.collections.array;
+module dark.collections.array;
 
-import darc.math;
+import dark.math;
 import std.stdio;
 import std.algorithm.mutation : copy;
 

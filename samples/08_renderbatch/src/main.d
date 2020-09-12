@@ -7,23 +7,18 @@ import std.datetime.stopwatch;
 import bindbc.opengl;
 import bindbc.glfw;
 
-import darc.core;
-import darc.engine;
-import darc.math;
-import darc.util.camera_controller;
-import darc.gfx.shader;
-import darc.gfx.shader_provider;
-import darc.gfx.camera;
-import darc.gfx.model;
-import darc.gfx.model_instance;
-import darc.gfx.model_loader;
-import darc.gfx.rendering;
-import darc.gfx.animation;
-
-struct Test
-{
-    int[]* test;
-}
+import dark.core;
+import dark.engine;
+import dark.math;
+import dark.util.camera_controller;
+import dark.gfx.shader;
+import dark.gfx.shader_provider;
+import dark.gfx.camera;
+import dark.gfx.model;
+import dark.gfx.model_instance;
+import dark.gfx.model_loader;
+import dark.gfx.rendering;
+import dark.gfx.animation;
 
 public class Entity
 {
@@ -60,6 +55,7 @@ public class Entity
         {
             controller.update(dt);
         }
+
     }
 
     public void render(RenderableBatch batch)
@@ -82,6 +78,7 @@ public class MyGame : IApp
     public void create()
     {
         writeln("create");
+
         _cam = new PerspectiveCamera(67, Core.graphics.getWidth(), Core.graphics.getHeight());
         _cam.near = 0.1f;
         _cam.far = 100f;

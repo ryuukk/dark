@@ -1,25 +1,25 @@
-module darc.gfx.model;
+module dark.gfx.model;
 
 import std.container;
 import std.stdio;
 import std.format;
 import std.typecons;
 
-import darc.pool;
-import darc.math;
-import darc.color;
-import darc.core;
-import darc.collections;
-import darc.gfx.node;
-import darc.gfx.material;
-import darc.gfx.animation;
-import darc.gfx.mesh;
-import darc.gfx.mesh_part;
-import darc.gfx.buffers;
-import darc.gfx.node;
-import darc.gfx.renderable;
-import darc.gfx.model_loader;
-import darc.gfx.node_part;
+import dark.pool;
+import dark.math;
+import dark.color;
+import dark.core;
+import dark.collections;
+import dark.gfx.node;
+import dark.gfx.material;
+import dark.gfx.animation;
+import dark.gfx.mesh;
+import dark.gfx.mesh_part;
+import dark.gfx.buffers;
+import dark.gfx.node;
+import dark.gfx.renderable;
+import dark.gfx.model_loader;
+import dark.gfx.node_part;
 
 public class Model
 {
@@ -98,7 +98,7 @@ public class Model
 
     private void convertMaterial(ModelMaterial mtl)
     {
-        import darc.gfx.texture;
+        import dark.gfx.texture;
 
         Material result = new Material(mtl.id);
 

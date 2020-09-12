@@ -1,8 +1,8 @@
-module darc.gfx.camera;
+module dark.gfx.camera;
 
 import core.math;
 
-import darc.math;
+import dark.math;
 
 public abstract class Camera
 {

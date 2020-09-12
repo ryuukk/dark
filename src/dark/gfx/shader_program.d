@@ -1,4 +1,4 @@
-module darc.gfx.shader_program;
+module dark.gfx.shader_program;
 
 import std.conv : text;
 import std.format;
@@ -6,7 +6,7 @@ import std.stdio;
 import core.math;
 
 import bindbc.opengl;
-import darc.math;
+import dark.math;
 
 
 public class ShaderProgram

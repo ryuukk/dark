@@ -1,11 +1,11 @@
-module darc.gfx.buffers;
+module dark.gfx.buffers;
 
 import std.stdio;
 import std.format;
 
 import bindbc.opengl;
 
-import darc.gfx.shader_program;
+import dark.gfx.shader_program;
 
 public class Usage
 {
