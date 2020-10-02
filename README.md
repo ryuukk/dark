@@ -14,29 +14,30 @@ import dark;
 int main()
 {
     auto game = new MyGame;
+    auto config = Config;
     auto engine = new Engine(game);
     engine.run();
 
     return 0;
 }
 
-public class MyGame : IApp
+class MyGame : IApp
 {
-    public void create()
+    void create()
     {
         writeln("Hi");
     }
     
-    public void update()
+    void update()
     {}
 
-    public void render()
+    void render()
     {}
 
-    public void resize(int width, int height)
+    void resize(int width, int height)
     {}
 
-    public void dispose()
+    void dispose()
     {}
 }
 
