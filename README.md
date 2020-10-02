@@ -14,7 +14,8 @@ import dark;
 int main()
 {
     auto game = new MyGame;
-    auto config = Config;
+    auto config = Config();
+    config.windowTitle = "Hello World";
     auto engine = new Engine(game);
     engine.run();
 
