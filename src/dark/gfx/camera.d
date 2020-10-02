@@ -4,26 +4,26 @@ import core.math;
 
 import dark.math;
 
-public abstract class Camera
+abstract class Camera
 {
-    public Vec3 position = Vec3();
-    public Vec3 direction = Vec3(0, 0, -1);
-    public Vec3 up = Vec3(0, 1, 0);
+    Vec3 position = Vec3();
+    Vec3 direction = Vec3(0, 0, -1);
+    Vec3 up = Vec3(0, 1, 0);
 
-    public Mat4 projection = Mat4();
-    public Mat4 view = Mat4();
-    public Mat4 combined = Mat4();
-    public Mat4 invProjectionView = Mat4();
+    Mat4 projection = Mat4();
+    Mat4 view = Mat4();
+    Mat4 combined = Mat4();
+    Mat4 invProjectionView = Mat4();
 
-    public float near = 1;
-    public float far = 100;
+    float near = 1;
+    float far = 100;
 
-    public float viewportWidth = 0;
-    public float viewportHeight = 0;
+    float viewportWidth = 0;
+    float viewportHeight = 0;
 
-    public abstract void update(bool updateFrustum = true);
+    abstract void update(bool updateFrustum = true);
 
-    public void lookAt(float x, float y, float z)
+    void lookAt(float x, float y, float z)
     {
         auto tmpVec = (Vec3(x, y, z) - position).nor();
 
@@ -45,29 +45,29 @@ public abstract class Camera
         }
     }
 
-    public void normalizeUp()
+    void normalizeUp()
     {
         auto tmpVec = direction.crs(up).nor();
         up = tmpVec.crs(direction).nor();
     }
 
-    public void rotate(in Vec3 axis, float angle)
+    void rotate(in Vec3 axis, float angle)
     {
             direction = Vec3.rotate(direction, axis, angle);
             up = Vec3.rotate(up, axis, angle);
     }
 }
 
-public class OrthographicCamera : Camera
+class OrthographicCamera : Camera
 {
-    public float zoom = 1;
+    float zoom = 1;
 
-    public this()
+    this()
     {
         this.near = 0;
     }
 
-    public this(float viewportWidth, float viewportHeight)
+    this(float viewportWidth, float viewportHeight)
     {
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
@@ -75,7 +75,7 @@ public class OrthographicCamera : Camera
         update();
     }
 
-    public override void update(bool updateFrustrum = true)
+    override void update(bool updateFrustrum = true)
     {
         projection = Mat4.createOrthographic(zoom * -viewportWidth / 2, zoom * (viewportWidth / 2), zoom * -(viewportHeight / 2),
                 zoom * viewportHeight / 2, near, far);
@@ -90,7 +90,7 @@ public class OrthographicCamera : Camera
         }
     }
 
-    public void setToOrtho(float viewportWidth, float viewportHeight, bool yDown = false)
+    void setToOrtho(float viewportWidth, float viewportHeight, bool yDown = false)
     {
         if (yDown)
         {
@@ -110,21 +110,21 @@ public class OrthographicCamera : Camera
 
 }
 
-public class PerspectiveCamera : Camera
+class PerspectiveCamera : Camera
 {
-    public float fieldOfView = 67;
+    float fieldOfView = 67;
 
-    public this()
+    this()
     {}
 
-    public this(float fov, float viewportWidth, float viewportHeight)
+    this(float fov, float viewportWidth, float viewportHeight)
     {
         this.fieldOfView = fov;
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
     }
 
-    public override void update(bool updateFrustrum = true)
+    override void update(bool updateFrustrum = true)
     {
         float aspect = viewportWidth / viewportHeight;
 

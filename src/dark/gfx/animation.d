@@ -10,41 +10,41 @@ import dark.gfx.node;
 import dark.gfx.model_instance;
 import dark.pool;
 
-public class Animation
+class Animation
 {
-    public string id;
-    public float duration = 0f;
-    public NodeAnimation[] nodeAnimations;
+    string id;
+    float duration = 0f;
+    NodeAnimation[] nodeAnimations;
 }
 
-public class NodeAnimation
+class NodeAnimation
 {
-    public Node node;
-    public NodeKeyframe!Vec3[] translation;
-    public NodeKeyframe!Quat[] rotation;
-    public NodeKeyframe!Vec3[] scaling;
+    Node node;
+    NodeKeyframe!Vec3[] translation;
+    NodeKeyframe!Quat[] rotation;
+    NodeKeyframe!Vec3[] scaling;
 }
 
-public struct NodeKeyframe(T)
+struct NodeKeyframe(T)
 {
-    public float keytime = 0f;
-    public T value;
+    float keytime = 0f;
+    T value;
 }
 
-public struct Transform
+struct Transform
 {
-    public Vec3 translation = Vec3(0, 0, 0);
-    public Quat rotation = Quat.identity;
-    public Vec3 scale = Vec3(1, 1, 1);
+    Vec3 translation = Vec3(0, 0, 0);
+    Quat rotation = Quat.identity;
+    Vec3 scale = Vec3(1, 1, 1);
 
     pragma(inline);
-    public Mat4 toMat4()
+    Mat4 toMat4()
     {
         return Mat4.set(translation, rotation, scale);
     }
 
     pragma(inline);
-    public Transform idt()
+    Transform idt()
     {
         translation = Vec3();
         rotation = Quat.identity;
@@ -53,13 +53,13 @@ public struct Transform
     }
 
     pragma(inline);
-    public Transform set(in Transform other)
+    Transform set(in Transform other)
     {
         return set(other.translation, other.rotation, other.scale);
     }
 
     pragma(inline);
-    public Transform set(in Vec3 t, in Quat r, in Vec3 s)
+    Transform set(in Vec3 t, in Quat r, in Vec3 s)
     {
         translation = t;
         rotation = r;
@@ -68,7 +68,7 @@ public struct Transform
     }
 
     pragma(inline);
-    public Transform lerp(in Vec3 targetT, in Quat targetR, in Vec3 targetS, float alpha)
+    Transform lerp(in Vec3 targetT, in Quat targetR, in Vec3 targetS, float alpha)
     {
         translation = Vec3.lerp(translation, targetT, alpha);
         rotation.slerp(targetR, alpha);//Quat.slerp(rotation, targetR, alpha);
@@ -80,23 +80,23 @@ public struct Transform
     }
 
     pragma(inline);
-    public Transform lerp(in Transform transform, float alpha)
+    Transform lerp(in Transform transform, float alpha)
     {
         return lerp(transform.translation, transform.rotation, transform.scale, alpha);
     }
 }
 
 
-public class BaseAnimationController
+class BaseAnimationController
 {
     alias TransformMap = HashMap!(Node,Transform);
-    public static TransformMap transforms;
+    static TransformMap transforms;
 
     private bool _applying = false;
-    public ModelInstance target;
+    ModelInstance target;
 
 
-    public this(ModelInstance target)
+    this(ModelInstance target)
     {
         this.target = target;
     }
@@ -352,21 +352,21 @@ public class BaseAnimationController
 }
 
 /*
-public struct Transform
+struct Transform
 {
-    public Vec3 translation = Vec3(0, 0, 0);
-    public Quat rotation = Quat.identity;
-    public Vec3 scale = Vec3(1, 1, 1);
-    public static Transform identity = Transform();
+    Vec3 translation = Vec3(0, 0, 0);
+    Quat rotation = Quat.identity;
+    Vec3 scale = Vec3(1, 1, 1);
+    static Transform identity = Transform();
 
     pragma(inline);
-    public Mat4 toMat4()
+    Mat4 toMat4()
     {
         return Mat4.set(translation, rotation, scale);
     }
 
     pragma(inline);
-    public Transform idt()
+    Transform idt()
     {
         translation = Vec3();
         rotation = Quat.identity;
@@ -375,7 +375,7 @@ public struct Transform
     }
 
     pragma(inline);
-    public ref Transform lerp(in Vec3 targetT, in Quat targetR, in Vec3 targetS, float alpha)
+    ref Transform lerp(in Vec3 targetT, in Quat targetR, in Vec3 targetS, float alpha)
     {
         translation = Vec3.lerp(translation, targetT, alpha);
         rotation = Quat.lerp(rotation, targetR, alpha);
@@ -387,20 +387,20 @@ public struct Transform
     }
 
     pragma(inline);
-    public ref Transform lerp(in Transform transform, float alpha)
+    ref Transform lerp(in Transform transform, float alpha)
     {
         return lerp(transform.translation, transform.rotation, transform.scale, alpha);
     }
 }
 
-public class BaseAnimationController
+class BaseAnimationController
 {
-    public Transform[Node] transforms;
+    Transform[Node] transforms;
 
     private bool _applying = false;
-    public ModelInstance target;
+    ModelInstance target;
 
-    public this(ModelInstance target)
+    this(ModelInstance target)
     {
         this.target = target;
     }
@@ -646,14 +646,14 @@ public class BaseAnimationController
     }
 }
 */
-public class AnimationDesc : IPoolable
+class AnimationDesc : IPoolable
 {
-    public Animation animation;
-    public float speed = 0f;
-    public float time = 0f;
-    public float offset = 0f;
-    public float duration = 0f;
-    public int loopCount = 0;
+    Animation animation;
+    float speed = 0f;
+    float time = 0f;
+    float offset = 0f;
+    float duration = 0f;
+    int loopCount = 0;
 
     protected float update(float dt)
     {
@@ -701,7 +701,7 @@ public class AnimationDesc : IPoolable
             return dt;
     }
 
-    public override void reset()
+    override void reset()
     {
         animation = null;
         speed = 0;
@@ -711,19 +711,19 @@ public class AnimationDesc : IPoolable
         loopCount = 0;
     }
 }
-public final class AnimationController : BaseAnimationController
+final class AnimationController : BaseAnimationController
 {
     static Pool!AnimationDesc animationPool;
     
-    public AnimationDesc current;
-    public AnimationDesc queued;
-    public float queuedTransitionTime = 0f;
-    public AnimationDesc previous;
-    public float transitionCurrentTime = 0f;
-    public float transitionTargetTime = 0f;
-    public bool inAction;
-    public bool paused;
-    public bool allowSameAnimation;
+    AnimationDesc current;
+    AnimationDesc queued;
+    float queuedTransitionTime = 0f;
+    AnimationDesc previous;
+    float transitionCurrentTime = 0f;
+    float transitionTargetTime = 0f;
+    bool inAction;
+    bool paused;
+    bool allowSameAnimation;
     private bool justChangedAnimation;
 
     static this()
@@ -737,7 +737,7 @@ public final class AnimationController : BaseAnimationController
         };
     }
 
-    public this(ModelInstance target)
+    this(ModelInstance target)
     {
         super(target);
     }
@@ -767,7 +767,7 @@ public final class AnimationController : BaseAnimationController
         return obtain(anim, offset, duration, loopCount, speed);
     }
 
-    public void update(float delta)
+    void update(float delta)
     {
         if (paused)
             return;
@@ -829,7 +829,7 @@ public final class AnimationController : BaseAnimationController
         return anim;
     }
 
-    public AnimationDesc animate(string id, float offset = 0f, float duration = -1f,
+    AnimationDesc animate(string id, float offset = 0f, float duration = -1f,
             int loopCount = -1, float speed = 1, float transitionTime = 0f)
     {
         auto desc = obtain(id, offset, duration, loopCount, speed);
@@ -852,7 +852,7 @@ public final class AnimationController : BaseAnimationController
         return anim;
     }
 
-    public AnimationDesc setAnimation(string id, float offset = 0f,
+    AnimationDesc setAnimation(string id, float offset = 0f,
             float duration = -1f, int loopCount = -1, float speed = 1f)
     {
         return setAnimation(obtain(id, offset, duration, loopCount, speed));

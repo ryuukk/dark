@@ -3,7 +3,7 @@ module dark.gfx.material;
 import dark.color;
 import dark.gfx.texture;
 
-public abstract class Attribute
+abstract class Attribute
 {
     private static string[] types;
 
@@ -24,7 +24,7 @@ public abstract class Attribute
         return (idx >= 0 && idx < types.length) ? types[idx] : null;
     }
 
-    public static ulong register(string aliass)
+    static ulong register(string aliass)
     {
         long result = getAttributeType(aliass);
         if (result > 0)
@@ -76,7 +76,7 @@ public abstract class Attribute
         return cast(int)(n - u);
     }
 
-    public ulong type;
+    ulong type;
     private int typeBit;
 
     protected this(ulong type)
@@ -91,10 +91,10 @@ public abstract class Attribute
     }
 }
 
-public class TextureAttribute : Attribute
+class TextureAttribute : Attribute
 {
-    public immutable static string diffuseAlias = "diffuseTexture";
-    public immutable static ulong diffuse;
+    immutable static string diffuseAlias = "diffuseTexture";
+    immutable static ulong diffuse;
 
     shared static this()
     {
@@ -102,96 +102,96 @@ public class TextureAttribute : Attribute
         mask = diffuse;
     }
 
-    public static ulong mask;
+    static ulong mask;
 
-    public TextureDescriptor descriptor;
-    public float offsetU = 0;
-    public float offsetV = 0;
-    public float scaleU = 1;
-    public float scaleV = 1;
-    public int uvIndex = 0;
+    TextureDescriptor descriptor;
+    float offsetU = 0;
+    float offsetV = 0;
+    float scaleU = 1;
+    float scaleV = 1;
+    int uvIndex = 0;
 
-    public this(ulong type)
+    this(ulong type)
     {
         super(type);
         descriptor = new TextureDescriptor();
     }
 
-    public this(ulong type, Texture2D texture)
+    this(ulong type, Texture2D texture)
     {
         super(type);
         descriptor = new TextureDescriptor();
         descriptor.texture = texture;
     }
 
-    public static TextureAttribute createDiffuse(Texture2D texture)
+    static TextureAttribute createDiffuse(Texture2D texture)
     {
         return new TextureAttribute(diffuse, texture);
     }
 }
 
-public class IntAttribute : Attribute
+class IntAttribute : Attribute
 {
-    public static immutable string cullFaceAlias = "cullface";
-    public static immutable ulong cullFace;
+    static immutable string cullFaceAlias = "cullface";
+    static immutable ulong cullFace;
 
     shared static this()
     {
         cullFace = register(cullFaceAlias);
     }
 
-    public static IntAttribute createCullFace(int value)
+    static IntAttribute createCullFace(int value)
     {
         return new IntAttribute(cullFace, value);
     }
 
-    public int value;
+    int value;
 
-    public this(ulong type, int value)
+    this(ulong type, int value)
     {
         super(type);
         this.value = value;
     }
 }
 
-public class DepthTestAttribute : Attribute
+class DepthTestAttribute : Attribute
 {
-    public static immutable string aliass = "depthStencil";
-    public static immutable ulong type;
+    static immutable string aliass = "depthStencil";
+    static immutable ulong type;
 
     shared static this()
     {
         type = register(aliass);
     }
 
-    public int depthFunc;
-    public float depthRangeNear;
-    public float depthRangeFar;
-    public bool depthMask;
+    int depthFunc;
+    float depthRangeNear;
+    float depthRangeFar;
+    bool depthMask;
 
-    public this(ulong type)
+    this(ulong type)
     {
         super(type);
     }
 }
 
-public class ColorAttribute : Attribute
+class ColorAttribute : Attribute
 {
-    public immutable static string diffuseAlias = "diffuseColor";
-    public immutable static string specularAlias = "specularColor";
-    public immutable static string ambientAlias = "ambientColor";
-    public immutable static string emissiveAlias = "emissiveColor";
-    public immutable static string reflectionAlias = "reflectionColor";
-    public immutable static string ambientLightAlias = "ambientLightColor";
-    public immutable static string fogAlias = "fogColor";
+    immutable static string diffuseAlias = "diffuseColor";
+    immutable static string specularAlias = "specularColor";
+    immutable static string ambientAlias = "ambientColor";
+    immutable static string emissiveAlias = "emissiveColor";
+    immutable static string reflectionAlias = "reflectionColor";
+    immutable static string ambientLightAlias = "ambientLightColor";
+    immutable static string fogAlias = "fogColor";
 
-    public immutable static ulong diffuse;
-    public immutable static ulong specular;
-    public immutable static ulong ambient;
-    public immutable static ulong emissive;
-    public immutable static ulong reflection;
-    public immutable static ulong ambientLight;
-    public immutable static ulong fog;
+    immutable static ulong diffuse;
+    immutable static ulong specular;
+    immutable static ulong ambient;
+    immutable static ulong emissive;
+    immutable static ulong reflection;
+    immutable static ulong ambientLight;
+    immutable static ulong fog;
 
     protected static ulong mask;
 
@@ -207,40 +207,40 @@ public class ColorAttribute : Attribute
         mask = ambient | diffuse | specular | emissive | reflection | ambientLight | fog;
     }
 
-    public static ColorAttribute createAmbient(Color color)
+    static ColorAttribute createAmbient(Color color)
     {
         return new ColorAttribute(ambient, color);
     }
 
-    public static ColorAttribute createDiffuse(Color color)
+    static ColorAttribute createDiffuse(Color color)
     {
         return new ColorAttribute(diffuse, color);
     }
 
-    public static ColorAttribute createSpecular(Color color)
+    static ColorAttribute createSpecular(Color color)
     {
         return new ColorAttribute(specular, color);
     }
 
-    public static ColorAttribute createReflection(Color color)
+    static ColorAttribute createReflection(Color color)
     {
         return new ColorAttribute(reflection, color);
     }
 
-    public Color color;
+    Color color;
 
-    public this(ulong type, Color color)
+    this(ulong type, Color color)
     {
         super(type);
         this.color = color;
     }
 }
 
-public class Attributes
+class Attributes
 {
-    public ulong mask;
-    public Attribute[] attributes;
-    public bool sorted = true;
+    ulong mask;
+    Attribute[] attributes;
+    bool sorted = true;
 
     private void enable(ulong mask)
     {
@@ -252,7 +252,7 @@ public class Attributes
         this.mask &= ~mask;
     }
 
-    public void sort()
+    void sort()
     {
         if (!sorted)
         {
@@ -262,7 +262,7 @@ public class Attributes
         }
     }
 
-    public void set(Attribute attribute)
+    void set(Attribute attribute)
     {
         int idx = indexOf(attribute.type);
         if (idx < 0)
@@ -278,12 +278,12 @@ public class Attributes
         sort(); //FIXME: See #4186
     }
 
-    public bool has(ulong type)
+    bool has(ulong type)
     {
         return type != 0 && (this.mask & type) == type;
     }
 
-    public int indexOf(ulong type)
+    int indexOf(ulong type)
     {
         if (has(type))
             for (int i = 0; i < attributes.length; i++)
@@ -292,7 +292,7 @@ public class Attributes
         return -1;
     }
 
-    public T get(T)(ulong t)
+    T get(T)(ulong t)
     {
         int index = indexOf(t);
         if (index == -1)
@@ -301,30 +301,30 @@ public class Attributes
         return cast(T) attributes[index];
     }
 
-    public ulong getMask()
+    ulong getMask()
     {
         return mask;
     }
 }
 
-public class Material : Attributes
+class Material : Attributes
 {
     import std.string;
 
     private static int counter = 0;
-    public string id;
+    string id;
 
-    public this()
+    this()
     {
         id = format("mtl_%s", (++counter));
     }
 
-    public this(string id)
+    this(string id)
     {
         this.id = id;
     }
 }
 
-public class Environment : Material
+class Environment : Material
 {
 }

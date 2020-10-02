@@ -22,18 +22,18 @@ import dark.gfx.renderable;
 import dark.gfx.model;
 import dark.gfx.model_loader;
 
-public class ModelInstance : IRenderableProvider
+class ModelInstance : IRenderableProvider
 {
-    public static bool defaultShareKeyframes = false;
+    static bool defaultShareKeyframes = false;
 
-    public Material[] materials;
-    public Node[] nodes;
-    public Animation[] animations;
-    public Model model;
+    Material[] materials;
+    Node[] nodes;
+    Animation[] animations;
+    Model model;
 
-    public Mat4 transform = Mat4.identity;
+    Mat4 transform = Mat4.identity;
 
-    public this(Model model)
+    this(Model model)
     {
         this.model = model;
         copyNodes(this.model);
@@ -133,7 +133,7 @@ public class ModelInstance : IRenderableProvider
             animations ~= animation;
     }
 
-    public void calculateTransforms()
+    void calculateTransforms()
     {
         int n = cast(int) nodes.length;
 
@@ -147,7 +147,7 @@ public class ModelInstance : IRenderableProvider
         }
     }
 
-    public void invalidate()
+    void invalidate()
     {
 		for (int i = 0, n = cast(int)nodes.length; i < n; ++i) {
 			invalidate(nodes[i]);
@@ -190,7 +190,7 @@ public class ModelInstance : IRenderableProvider
         }
     }
 
-    public Animation getAnimation(string id, bool ignoreCase = false)
+    Animation getAnimation(string id, bool ignoreCase = false)
     {
         int n = cast(int) animations.length;
 
@@ -209,7 +209,7 @@ public class ModelInstance : IRenderableProvider
         return null;
     }
 
-    public void getRenderables(ref Array!Renderable renderables, Pool!Renderable pool)
+    void getRenderables(ref Array!Renderable renderables, Pool!Renderable pool)
     {
         void checkNode(Node node)
         {

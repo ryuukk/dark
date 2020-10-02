@@ -48,7 +48,7 @@ class Entity
            // animate(string id, float offset = 0f, float duration = -1f, int loopCount = -1, float speed = 1, float transitionTime = 0f)
            
            // todo: causes mem leak!!
-           controller.animate(animation.id, 0, -1, -1, 1.0f, 0.2f);
+           controller.animate(animation.id, 0, -1, 1, 0.6f, 0.2f);
         }
 
         if (controller !is null)
@@ -131,7 +131,7 @@ class MyGame : IApp
         else
         {
             //entities.reserve(1024);
-            int s = 16;
+            int s = 12;
             int pad = 2;
             int id = 0;
             StopWatch sw;
@@ -248,9 +248,10 @@ class MyGame : IApp
 
 void main()
 {
-    auto config = new Configuration;
+    auto config = Config();
     config.windowTitle = "Sample 08 - RenderableBatch";
     config.vsync = false;
+
     auto game = new MyGame;
     auto engine = new Engine(game, config);
     engine.run();

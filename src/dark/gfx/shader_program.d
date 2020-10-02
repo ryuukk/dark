@@ -9,18 +9,18 @@ import bindbc.opengl;
 import dark.math;
 
 
-public class ShaderProgram
+class ShaderProgram
 {
-    public static immutable string POSITION_ATTRIBUTE = "a_position";
-    public static immutable string NORMAL_ATTRIBUTE = "a_normal";
-    public static immutable string COLOR_ATTRIBUTE = "a_color";
-    public static immutable string TEXCOORD_ATTRIBUTE = "a_texCoord";
-    public static immutable string TANGENT_ATTRIBUTE = "a_tangent";
-    public static immutable string BINORMAL_ATTRIBUTE = "a_binormal";
-    public static immutable string BONEWEIGHT_ATTRIBUTE = "a_boneWeight";
-    public static string prependVertexCode = "";
-    public static string prependFragmentCode = "";
-    public static bool pedantic = true;
+    static immutable string POSITION_ATTRIBUTE = "a_position";
+    static immutable string NORMAL_ATTRIBUTE = "a_normal";
+    static immutable string COLOR_ATTRIBUTE = "a_color";
+    static immutable string TEXCOORD_ATTRIBUTE = "a_texCoord";
+    static immutable string TANGENT_ATTRIBUTE = "a_tangent";
+    static immutable string BINORMAL_ATTRIBUTE = "a_binormal";
+    static immutable string BONEWEIGHT_ATTRIBUTE = "a_boneWeight";
+    static string prependVertexCode = "";
+    static string prependFragmentCode = "";
+    static bool pedantic = true;
 
     private string _log = "";
     private bool _isCompiled;
@@ -44,7 +44,7 @@ public class ShaderProgram
     private bool _invalidated;
     private int _refCount = 0;
 
-    public this(string vertexShader, string fragmentShader)
+    this(string vertexShader, string fragmentShader)
     {
         assert(vertexShader != null);
         assert(fragmentShader != null);
@@ -232,7 +232,7 @@ public class ShaderProgram
         }
     }
 
-    public void setVertexAttribute(int location, int size, int type,
+    void setVertexAttribute(int location, int size, int type,
             bool normalize, int stride, int offset)
     {
         checkManaged();
@@ -240,13 +240,13 @@ public class ShaderProgram
                 : GL_FALSE, stride, cast(const(void)*) offset);
     }
 
-    public void enableVertexAttribute(int location)
+    void enableVertexAttribute(int location)
     {
         checkManaged();
         glEnableVertexAttribArray(location);
     }
 
-    public void disableVertexAttribute(string name)
+    void disableVertexAttribute(string name)
     {
         checkManaged();
         int location = fetchAttributeLocation(name);
@@ -255,25 +255,25 @@ public class ShaderProgram
         glDisableVertexAttribArray(location);
     }
 
-    public void disableVertexAttribute(int location)
+    void disableVertexAttribute(int location)
     {
         checkManaged();
         glDisableVertexAttribArray(location);
     }
 
-    public int getAttributeLocation(string name)
+    int getAttributeLocation(string name)
     {
         return _attributes.get(name, -1);
     }
 
-    public void begin()
+    void begin()
     {
         checkManaged();
 
         glUseProgram(_program);
     }
 
-    public void end()
+    void end()
     {
         glUseProgram(0);
     }
@@ -283,7 +283,7 @@ public class ShaderProgram
         return fetchUniformLocation(name, pedantic);
     }
 
-    public int fetchUniformLocation(string name, bool pedantic)
+    int fetchUniformLocation(string name, bool pedantic)
     {
         // -2 == not yet cached
         // -1 == cached but not found
@@ -303,26 +303,26 @@ public class ShaderProgram
         return location;
     }
 
-    public void setUniformi(string name, int value)
+    void setUniformi(string name, int value)
     {
         checkManaged();
         int location = fetchUniformLocation(name);
         glUniform1i(location, value);
     }
 
-    public void setUniformi(int location, int value)
+    void setUniformi(int location, int value)
     {
         checkManaged();
         glUniform1i(location, value);
     }
 
-    public void setUniformMat4(string name, Mat4 value, bool transpose = false)
+    void setUniformMat4(string name, Mat4 value, bool transpose = false)
     {
         checkManaged();
         int location = fetchUniformLocation(name);
         glUniformMatrix4fv(location, 1, transpose, &value.m00);
     }
-    public void setUniformMat4(int location, Mat4 value, bool transpose = false)
+    void setUniformMat4(int location, Mat4 value, bool transpose = false)
     {
         checkManaged();
         glUniformMatrix4fv(location, 1, transpose, &value.m00);
@@ -349,7 +349,7 @@ public class ShaderProgram
     }
 
     int a = 0;
-    public void setUniformMat4Array(string name, int count, ref Mat4[] value, bool transpose = false)
+    void setUniformMat4Array(string name, int count, ref Mat4[] value, bool transpose = false)
     {
         //for (int i = 0; i < value.length; i++)
         //{
@@ -367,25 +367,25 @@ public class ShaderProgram
         glUniformMatrix4fv(location, count, transpose, &value[0].m00);
     }
 
-    public void setUniform4f(string name, float a, float b, float c, float d)
+    void setUniform4f(string name, float a, float b, float c, float d)
     {
         checkManaged();
         int location = fetchUniformLocation(name);
         glUniform4f(location, a, b, c, d);
     }
     
-    public void setUniformf(int location, float value1, float value2, float value3, float value4)
+    void setUniformf(int location, float value1, float value2, float value3, float value4)
     {
         checkManaged();
         glUniform4f(location, value1, value2, value3, value4);
     }
 
-    public bool isCompiled()
+    bool isCompiled()
     {
         return _isCompiled;
     }
 
-    public string getLog()
+    string getLog()
     {
         return _log;
     }

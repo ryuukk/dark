@@ -5,21 +5,21 @@ import std.algorithm.comparison;
 
 
 // todo: make it a struct
-public class ArrayMap(K, V)
+class ArrayMap(K, V)
 {
-    public K[] keys;
-    public V[] values;
-    public int  size;
-    public bool ordered;
+    K[] keys;
+    V[] values;
+    int  size;
+    bool ordered;
 
-    public this(bool ordered = true, int capacity = 16)
+    this(bool ordered = true, int capacity = 16)
     {
         this.ordered = ordered;
         keys  .length = capacity;
         values.length = capacity;
     }
 
-    public int put(K key, V value)
+    int put(K key, V value)
     {
         int index = indexOfKey(key);
         if(index == -1)
@@ -34,12 +34,12 @@ public class ArrayMap(K, V)
         return index;
     }
 
-    public void putAll(ArrayMap!(K, V) map)
+    void putAll(ArrayMap!(K, V) map)
     {
         putAll(map, 0, map.size);
     }
 
-    public void putAll(ArrayMap!(K, V) map, int offset, int length)
+    void putAll(ArrayMap!(K, V) map, int offset, int length)
     {
         if(offset + length > map.size) throw new Exception("noope");
         int sizeNeeded = size + length - offset;
@@ -54,7 +54,7 @@ public class ArrayMap(K, V)
         }
     }
 
-    public int indexOfKey(K key)
+    int indexOfKey(K key)
     {
         for(int i = 0; i < cast(int) keys.length; i++)
         {
@@ -63,13 +63,13 @@ public class ArrayMap(K, V)
         return -1;
     }
 
-    public void resize(int newSize)
+    void resize(int newSize)
     {
         keys.length = newSize;
         values.length = newSize;
     }
 
-    public void clear()
+    void clear()
     {
         resize(0);
     }

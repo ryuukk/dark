@@ -5,23 +5,23 @@ import std.stdio;
 import std.algorithm.mutation : copy;
 
 // todo: make it a struct
-public class DelayedRemovalArray(T)
+class DelayedRemovalArray(T)
 {
-    public Array!T array;
-    public Array!int _remove;
+    Array!T array;
+    Array!int _remove;
     private int _iterating;
     private int _clear;
 }
 
 
 // todo: make it a struct
-public class Array(T)
+class Array(T)
 {
     private T[] _items;
     private int _count = 0;
     private int _version = 0;
 
-    public int count()
+    int count()
     {
         return _count;
     }
@@ -51,14 +51,14 @@ public class Array(T)
         return result;
     }
 
-    public T get(int index)
+    T get(int index)
     {
         if ((index < 0) || (index >= _count))
             throw new Exception("out of bound");
         return _items[index];
     }
 
-    public void set(int index, ref T value)
+    void set(int index, ref T value)
     {
         if (index >= _count)
             throw new Exception("out of bound");
@@ -66,7 +66,7 @@ public class Array(T)
         ++_version;
     }
 
-    public void ensureCapacity(int newSize)
+    void ensureCapacity(int newSize)
     {
         int originalLength = cast(int) _items.length;
         int diff = newSize - originalLength;
@@ -89,7 +89,7 @@ public class Array(T)
             _items[i] = _items[i - 1];
     }
 
-    public void clear()
+    void clear()
     {
         for (int i = 0; i < _items.length; i++)
         {
@@ -100,7 +100,7 @@ public class Array(T)
         _version++;
     }
 
-    public void add(T item)
+    void add(T item)
     {
         auto length = cast(int) _items.length;
         if (_count + 1 > length)
@@ -114,48 +114,53 @@ public class Array(T)
         _version++;
     }
 
-    public void addAll(ref Array!T items)
+    void addAll(ref Array!T items)
     {
         // todo: optimize
         for(int i = 0; i < items.count(); i++)
             add(items[i]);
     }
 
-    public bool remove(ref T item)
+    T remove(T item)
     {
-        int index = indexOf(item);
-        if (index < 0)
-            return false;
-        removeAt(index);
-        return true;
+        for(int i=0; i<_count; i++) {
+            if(_items[i]==item) {
+                return removeAt(i);
+            }
+        }
+        return T.init;
     }
 
-    public int indexOf(T item)
+    int indexOf(T item)
     {
-        for (int i = 0; i < _count - 1; i++)
-        {
-            if (_items[i] == item)
-                return i;
-        }
+       for(int i=0; i<_count; i++)
+            if(_items[i]==item) return i;
         return -1;
     }
 
-    public T removeAt(int index)
+
+    T removeAt(int index)
     {
-        if (index > _count)
-            throw new Exception("out of bound");
+        import core.stdc.string : memmove;
+        T val = _items[index];
+	    _count--;
 
-        _count--;
-        auto removed = _items[index];
-        for (int i = index; i < _count - 1; i++)
-            _items[i] = _items[i + 1];
-        _items.length = _items.length - 1;
-        _version++;
-
-        return removed;
+        static if(__traits(isPOD,T)) {
+            memmove(
+                _items.ptr+index,        // dest
+                _items.ptr+index+1,      // src
+                (_count-index)*T.sizeof);  // num bytes
+        } else {
+            for(auto j = index; j<_count; j++) {
+                _items[j] = _items[j+1];
+            }
+        }
+	    return val;
     }
 
-    
+    void pack() {
+        _items.length = _count;
+    }
 
     unittest {
         auto array = new Array!int;

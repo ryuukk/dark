@@ -76,7 +76,7 @@ extern (C) void mouseButtonCallback(GLFWwindow* window, int button, int action, 
     }
 }
 
-public class Input
+class Input
 {
     private GLFWwindow* _window;
 
@@ -113,7 +113,7 @@ public class Input
         eventQueue.drain();
     }
 
-    public void windowHandleChanged(GLFWwindow* window)
+    void windowHandleChanged(GLFWwindow* window)
     {
         _window = window;
         resetPollingStates();
@@ -146,7 +146,7 @@ public class Input
         deltaY = 0;
     }
 
-    public void onKeyCallback(int key, int scancode, int action, int mods)
+    void onKeyCallback(int key, int scancode, int action, int mods)
     {
         switch (action)
         {
@@ -181,13 +181,13 @@ public class Input
         }
     }
 
-    public void onCharCallback(int codepoint)
+    void onCharCallback(int codepoint)
     {
         lastCharacter = cast(char) codepoint;
         eventQueue.keyTyped(cast(char) codepoint);
     }
 
-    public void onScrollCallback(double scrollX, double scrollY)
+    void onScrollCallback(double scrollX, double scrollY)
     {
         if (scrollYRemainder > 0 && scrollY < 0 || scrollYRemainder < 0
                 && scrollY > 0 || nanoTime() - lastScrollEventTime > pauseTime)
@@ -213,7 +213,7 @@ public class Input
         }
     }
 
-    public void onCursorPosCallback(double x, double y)
+    void onCursorPosCallback(double x, double y)
     {
         deltaX = cast(int) x - logicalMouseX;
         deltaY = cast(int) y - logicalMouseY;
@@ -242,7 +242,7 @@ public class Input
         }
     }
 
-    public void onMouseButtonCallback(int button, int action, int mods)
+    void onMouseButtonCallback(int button, int action, int mods)
     {
         int convertedBtn = convertButton(button);
         if (button != -1 && convertedBtn == -1)
@@ -290,33 +290,33 @@ public class Input
         return justPressedKeys[cast(int) key];
     }
 
-    public float getX()
+    float getX()
     {
         return mouseX;
     }
 
-    public float getY()
+    float getY()
     {
         return mouseY;
     }
 
-    public float getDeltaX()
+    float getDeltaX()
     {
         return deltaX;
     }
 
-    public float getDeltaY()
+    float getDeltaY()
     {
         return deltaY;
     }
 
-    public void setInputProcessor(IInputProcessor processor)
+    void setInputProcessor(IInputProcessor processor)
     {
         this.inputProcessor = processor;
     }
 }
 
-public final enum Buttons
+final enum Buttons
 {
     LEFT = 0,
     RIGHT = 1,
@@ -325,7 +325,7 @@ public final enum Buttons
     FORWARD = 4,
 }
 
-public final enum Keys
+final enum Keys
 {
     ANY_KEY = -1,
     NUM_0 = 7,
@@ -471,14 +471,14 @@ public final enum Keys
     NUMPAD_8 = 152,
     NUMPAD_9 = 153,
 
-    // public static int BACKTICK = 0;
-    // public static int TILDE = 0;
-    // public static int UNDERSCORE = 0;
-    // public static int DOT = 0;
-    // public static int BREAK = 0;
-    // public static int PIPE = 0;
-    // public static int EXCLAMATION = 0;
-    // public static int QUESTIONMARK = 0;
+    // static int BACKTICK = 0;
+    // static int TILDE = 0;
+    // static int UNDERSCORE = 0;
+    // static int DOT = 0;
+    // static int BREAK = 0;
+    // static int PIPE = 0;
+    // static int EXCLAMATION = 0;
+    // static int QUESTIONMARK = 0;
 
     // ` | VK_BACKTICK
     // ~ | VK_TILDE
@@ -522,7 +522,7 @@ char characterForKeyCode(int key)
     }
 }
 
-public int convertKeyCode(int lwjglKeyCode)
+int convertKeyCode(int lwjglKeyCode)
 {
     switch (lwjglKeyCode)
     {
@@ -754,7 +754,7 @@ public int convertKeyCode(int lwjglKeyCode)
     }
 }
 
-public int convertButton(int button)
+int convertButton(int button)
 {
     if (button == 0)
         return Buttons.LEFT;
@@ -769,7 +769,7 @@ public int convertButton(int button)
     return -1;
 }
 
-public interface IInputProcessor
+interface IInputProcessor
 {
     bool keyDown(int keycode);
 
@@ -789,7 +789,7 @@ public interface IInputProcessor
 }
 
 // todo: optimize array shit
-public class InputEventQueue : IInputProcessor
+class InputEventQueue : IInputProcessor
 {
     import dark.collections.array;
 
@@ -808,7 +808,7 @@ public class InputEventQueue : IInputProcessor
     private Array!int processingQueue;
     private long currentEventTime;
 
-    public this()
+    this()
     {
         queue = new Array!int();
         processingQueue = new Array!int();
@@ -816,12 +816,12 @@ public class InputEventQueue : IInputProcessor
         processingQueue.ensureCapacity(512);
     }
 
-    public void setProcessor(IInputProcessor processor)
+    void setProcessor(IInputProcessor processor)
     {
         this.processor = processor;
     }
 
-    public void drain()
+    void drain()
     {
         if (processor is null)
         {
@@ -931,7 +931,7 @@ public class InputEventQueue : IInputProcessor
         queue.add(cast(int) time);
     }
 
-    public bool keyDown(int keycode)
+    bool keyDown(int keycode)
     {
         queue.add(KEY_DOWN);
         queueTime();
@@ -939,7 +939,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool keyUp(int keycode)
+    bool keyUp(int keycode)
     {
         queue.add(KEY_UP);
         queueTime();
@@ -947,7 +947,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool keyTyped(char character)
+    bool keyTyped(char character)
     {
         queue.add(KEY_TYPED);
         queueTime();
@@ -955,7 +955,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool touchDown(int screenX, int screenY, int pointer, int button)
+    bool touchDown(int screenX, int screenY, int pointer, int button)
     {
         queue.add(TOUCH_DOWN);
         queueTime();
@@ -966,7 +966,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool touchUp(int screenX, int screenY, int pointer, int button)
+    bool touchUp(int screenX, int screenY, int pointer, int button)
     {
         queue.add(TOUCH_UP);
         queueTime();
@@ -977,7 +977,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool touchDragged(int screenX, int screenY, int pointer)
+    bool touchDragged(int screenX, int screenY, int pointer)
     {
         // Skip any queued touch dragged events for the same pointer.
         for (int i = next(TOUCH_DRAGGED, 0); i >= 0; i = next(TOUCH_DRAGGED, i + 6))
@@ -996,7 +996,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool mouseMoved(int screenX, int screenY)
+    bool mouseMoved(int screenX, int screenY)
     {
         // Skip any queued mouse moved events.
         for (int i = next(MOUSE_MOVED, 0); i >= 0; i = next(MOUSE_MOVED, i + 5))
@@ -1011,7 +1011,7 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public bool scrolled(int amount)
+    bool scrolled(int amount)
     {
         queue.add(SCROLLED);
         queueTime();
@@ -1019,50 +1019,50 @@ public class InputEventQueue : IInputProcessor
         return false;
     }
 
-    public long getCurrentEventTime()
+    long getCurrentEventTime()
     {
         return currentEventTime;
     }
 }
 
-public class InputAdapter : IInputProcessor
+class InputAdapter : IInputProcessor
 {
-    public bool keyDown(int keycode)
+    bool keyDown(int keycode)
     {
         return false;
     }
 
-    public bool keyUp(int keycode)
+    bool keyUp(int keycode)
     {
         return false;
     }
 
-    public bool keyTyped(char character)
+    bool keyTyped(char character)
     {
         return false;
     }
 
-    public bool touchDown(int screenX, int screenY, int pointer, int button)
+    bool touchDown(int screenX, int screenY, int pointer, int button)
     {
         return false;
     }
 
-    public bool touchUp(int screenX, int screenY, int pointer, int button)
+    bool touchUp(int screenX, int screenY, int pointer, int button)
     {
         return false;
     }
 
-    public bool touchDragged(int screenX, int screenY, int pointer)
+    bool touchDragged(int screenX, int screenY, int pointer)
     {
         return false;
     }
 
-    public bool mouseMoved(int screenX, int screenY)
+    bool mouseMoved(int screenX, int screenY)
     {
         return false;
     }
 
-    public bool scrolled(int amount)
+    bool scrolled(int amount)
     {
         return false;
     }

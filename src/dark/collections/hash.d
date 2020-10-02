@@ -17,13 +17,13 @@ bool UseToHashMethod(T)() {
     })));
 }
 
-public hash_t hash_function(T)(T v) /* @safe @nogc inherited from toHash method */
+hash_t hash_function(T)(T v) /* @safe @nogc inherited from toHash method */
 if ( UseToHashMethod!T )
 {
     return v.toHash();
 }
 
-public hash_t hash_function(T)(in T v) @nogc @trusted
+hash_t hash_function(T)(in T v) @nogc @trusted
 if ( !UseToHashMethod!T )
 {
     static if (is(T==int) || is(T==uint) || is(T==byte) || is(T==ubyte))

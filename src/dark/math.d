@@ -1,66 +1,204 @@
 module dark.math;
 
+import std.random;
 import std.math;
 import std.range;
 import std.format;
 import std.conv;
 import std.string;
 
-public const float FLOAT_ROUNDING_ERROR = 0.000001f;
-public const float PI = std.math.PI;
-public const float PI2 = PI * 2;
-public const float DEG2RAD = PI / 180.0f;
-public const float RAD2DEG = 180.0f / PI;
+const float FLOAT_ROUNDING_ERROR = 0.000001f;
+const float PI = std.math.PI;
+const float PI2 = PI * 2;
+const float PIDIV2 = PI / 2;
+const float DEG2RAD = PI / 180.0f;
+const float RAD2DEG = 180.0f / PI;
 
-pragma(inline);
-int min(int a, int b)
+__gshared static Random rnd;
+
+
+static this()
 {
-    return a >= b ? b : a;
+    rnd = Random(unpredictableSeed);
 }
 
-public struct Vec2
+pragma(inline)
 {
-    public float x = 0f;
-    public float y = 0f;
 
-    public this(float x, float y)
+    float random_range(float x, float y)
+    {
+        return uniform(x, y, rnd);
+    }
+
+    bool isEqual(float a, float b)
+    {
+        return abs(a - b) <= FLOAT_ROUNDING_ERROR;
+    }
+
+    float dst(float x1, float y1, float x2, float y2)
+    {
+        float x_d = x2 - x1;
+        float y_d = y2 - y1;
+        return sqrt(x_d * x_d + y_d * y_d);
+    }
+
+    float max(float a, float b)
+    {
+        return std.math.fmax(a, b);
+    }
+
+    int imax(int a, int b)
+    {
+        return cast(int) std.math.fmax(cast(float) a, cast(float) b);
+    }
+
+    float min(float a, float b)
+    {
+        return std.math.fmin(a, b);
+    }
+
+    float cos(float value)
+    {
+        return std.math.cos(value);
+    }
+
+    float sin(float value)
+    {
+        return std.math.sin(value);
+    }
+
+    float sqrt(float value)
+    {
+        return std.math.sqrt(value);
+    }
+
+    int min(int a, int b)
+    {
+        return a >= b ? b : a;
+    }
+
+    float atan2(float y, float x)
+    {
+        return std.math.atan2(y, x);
+    }
+
+    float bound_to_pi(float rad)
+    {
+        if (rad < -PI)
+        {
+            int tmp = (cast(int)(rad / -PI) + 1) / 2;
+            rad = rad + tmp * 2 * PI;
+        }
+        else if (rad > PI)
+        {
+            int tmp = (cast(int)(rad / PI) + 1) / 2;
+            rad = rad - tmp * 2 * PI;
+        }
+        return rad;
+    }
+}
+
+struct Vec2
+{
+    float x = 0f;
+    float y = 0f;
+
+    this(float x, float y)
     {
         this.x = x;
         this.y = y;
     }
+
+    pragma(inline)
+    {
+        Vec2 opBinary(string op)(Vec2 other)
+        {
+            static if (op == "+")
+                return Vec2(x + other.x, y + other.y);
+            else static if (op == "-")
+                return Vec2(x - other.x, y - other.y);
+            else static if (op == "*")
+                return Vec2(x * other.x, y * other.y);
+            else static if (op == "/")
+                return Vec2(x / other.x, y / other.y);
+            else static if (op == "+=")
+                return Vec2(x + other.x, y + other.y);
+            else
+                static assert(0, "Operator " ~ op ~ " not implemented");
+        }
+
+        float len()
+        {
+            return cast(float) sqrt(x * x + y * y);
+        }
+
+        void nor()
+        {
+            float l = len();
+            if (l != 0)
+            {
+                x /= l;
+                y /= l;
+            }
+        }
+
+        static Vec2 normalize(Vec2 other)
+        {
+            float l = other.len();
+            if (l != 0)
+            {
+                Vec2 ret;
+                ret.x = other.x / l;
+                ret.y = other.y / l;
+            }
+            return other;
+        }
+
+        static Vec2 normalize(float x, float y)
+        {
+            Vec2 ret = Vec2(x, y);
+            float l = ret.len();
+            if (l != 0)
+            {
+                ret.x = x / l;
+                ret.y = y / l;
+            }
+            return ret;
+        }
+    }
 }
 
-public struct Vec3
+struct Vec3
 {
-    public float x = 0f;
-    public float y = 0f;
-    public float z = 0f;
+    float x = 0f;
+    float y = 0f;
+    float z = 0f;
 
-    public static Vec3 unitX = Vec3(1,0,0);
-    public static Vec3 unitY = Vec3(0,1,0);
-    public static Vec3 unitZ = Vec3(0,0,1);
+    static Vec3 unitX = Vec3(1,0,0);
+    static Vec3 unitY = Vec3(0,1,0);
+    static Vec3 unitZ = Vec3(0,0,1);
 
-    public static @property Vec3 X()
+    static @property Vec3 X()
     {
         return Vec3(1, 0, 0);
     }
 
-    public static @property Vec3 Y()
+    static @property Vec3 Y()
     {
         return Vec3(0, 1, 0);
     }
 
-    public static @property Vec3 Z()
+    static @property Vec3 Z()
     {
         return Vec3(0, 0, 1);
     }
 
-    public static @property Vec3 ZERO()
+    static @property Vec3 ZERO()
     {
         return Vec3(0, 0, 0);
     }
 
-    public this(float x, float y, float z)
+    this(float x, float y, float z)
     {
         this.x = x;
         this.y = y;
@@ -68,13 +206,13 @@ public struct Vec3
     }
 
     pragma(inline);
-    public float len2()
+    float len2()
     {
         return x * x + y * y + z * z;
     }
 
     pragma(inline);
-    public Vec3 nor()
+    Vec3 nor()
     {
         float len2 = len2();
         if (len2 == 0f || len2 == 1f)
@@ -86,20 +224,20 @@ public struct Vec3
     }
 
     pragma(inline);
-    public float dot(Vec3 vector)
+    float dot(Vec3 vector)
     {
         return x * vector.x + y * vector.y + z * vector.z;
     }
 
     pragma(inline);
-    public Vec3 crs(Vec3 vector)
+    Vec3 crs(Vec3 vector)
     {
         return Vec3(y * vector.z - z * vector.y, z * vector.x - x * vector.z,
                 x * vector.y - y * vector.x);
     }
 
     pragma(inline);
-    public Vec3 mul(in Mat4 m)
+    Vec3 mul(in Mat4 m)
     {
         return Vec3(x * m.m00 + y * m.m01 + z * m.m02 + m.m03,
                 x * m.m10 + y * m.m11 + z * m.m12 + m.m13, x * m.m20 + y * m.m21 + z * m.m22 + m
@@ -107,7 +245,7 @@ public struct Vec3
     }
 
     pragma(inline);
-    public void prj(Mat4 matrix)
+    void prj(Mat4 matrix)
     {
         auto l_w = 1f / (x * matrix.m30 + y * matrix.m31 + z * matrix.m32 + matrix.m33);
 
@@ -121,7 +259,7 @@ public struct Vec3
     }
 
     pragma(inline);
-    public bool isZero()
+    bool isZero()
     {
         return x == 0 && y == 0 && z == 0;
     }
@@ -195,13 +333,13 @@ public struct Vec3
     }
 
     pragma(inline);
-    public static float len(float x, float y, float z)
+    static float len(float x, float y, float z)
     {
         return sqrt(x * x + y * y + z * z);
     }
 
     pragma(inline);
-    public static Vec3 lerp(in Vec3 lhs, in Vec3 rhs, float t)
+    static Vec3 lerp(in Vec3 lhs, in Vec3 rhs, float t)
     {
         if (t > 1f)
         {
@@ -222,13 +360,13 @@ public struct Vec3
     }
 
     pragma(inline);
-    public static float dot(in Vec3 lhs, in Vec3 rhs)
+    static float dot(in Vec3 lhs, in Vec3 rhs)
     {
         return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
     }
 
     pragma(inline);
-    public static Vec3 cross(in Vec3 lhs, in Vec3 rhs)
+    static Vec3 cross(in Vec3 lhs, in Vec3 rhs)
     {
         Vec3 res;
         res.x = lhs.y * rhs.z - lhs.z * rhs.y;
@@ -238,7 +376,7 @@ public struct Vec3
     }
 
     pragma(inline);
-    public static Vec3 rotate(in Vec3 lhs, in Vec3 axis, float angle)
+    static Vec3 rotate(in Vec3 lhs, in Vec3 axis, float angle)
     {
         auto rotation = Quat.fromAxis(axis, angle);
         auto matrix = Mat4.set(0, 0, 0, rotation.x, rotation.y, rotation.z, rotation.w);
@@ -247,7 +385,7 @@ public struct Vec3
     }
 
     pragma(inline);
-    public static Vec3 transform(in Vec3 lhs, in Mat4 matrix)
+    static Vec3 transform(in Vec3 lhs, in Mat4 matrix)
     {
         float inv_w = 1.0f / (lhs.x * matrix.m30 + lhs.y * matrix.m31 + lhs.z
                 * matrix.m32 + matrix.m33);
@@ -268,41 +406,41 @@ OPENGL is COLUMN MAJOR !!!!
 
 */
 
-public struct Mat4
+struct Mat4
 {
-    public static immutable int M00 = 0;
-    public static immutable int M01 = 4;
-    public static immutable int M02 = 8;
-    public static immutable int M03 = 12;
-    public static immutable int M10 = 1;
-    public static immutable int M11 = 5;
-    public static immutable int M12 = 9;
-    public static immutable int M13 = 13;
-    public static immutable int M20 = 2;
-    public static immutable int M21 = 6;
-    public static immutable int M22 = 10;
-    public static immutable int M23 = 14;
-    public static immutable int M30 = 3;
-    public static immutable int M31 = 7;
-    public static immutable int M32 = 11;
-    public static immutable int M33 = 15;
-    public float m00 = 0;
-    public float m10 = 0;
-    public float m20 = 0;
-    public float m30 = 0;
-    public float m01 = 0;
-    public float m11 = 0;
-    public float m21 = 0;
-    public float m31 = 0;
-    public float m02 = 0;
-    public float m12 = 0;
-    public float m22 = 0;
-    public float m32 = 0;
-    public float m03 = 0;
-    public float m13 = 0;
-    public float m23 = 0;
-    public float m33 = 0;
-    public this(float m00, float m01, float m02, float m03, float m04, float m05,
+    static immutable int M00 = 0;
+    static immutable int M01 = 4;
+    static immutable int M02 = 8;
+    static immutable int M03 = 12;
+    static immutable int M10 = 1;
+    static immutable int M11 = 5;
+    static immutable int M12 = 9;
+    static immutable int M13 = 13;
+    static immutable int M20 = 2;
+    static immutable int M21 = 6;
+    static immutable int M22 = 10;
+    static immutable int M23 = 14;
+    static immutable int M30 = 3;
+    static immutable int M31 = 7;
+    static immutable int M32 = 11;
+    static immutable int M33 = 15;
+    float m00 = 0;
+    float m10 = 0;
+    float m20 = 0;
+    float m30 = 0;
+    float m01 = 0;
+    float m11 = 0;
+    float m21 = 0;
+    float m31 = 0;
+    float m02 = 0;
+    float m12 = 0;
+    float m22 = 0;
+    float m32 = 0;
+    float m03 = 0;
+    float m13 = 0;
+    float m23 = 0;
+    float m33 = 0;
+    this(float m00, float m01, float m02, float m03, float m04, float m05,
             float m06, float m07, float m08, float m09, float m10, float m11,
             float m12, float m13, float m14, float m15)
     {
@@ -324,7 +462,7 @@ public struct Mat4
         m33 = m15;
     }
 
-    public void print()
+    void print()
     {
         import std.stdio;
 
@@ -347,7 +485,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 identity()
+    static Mat4 identity()
     {
         Mat4 ret;
         ret.m00 = 1f;
@@ -370,7 +508,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public Mat4 idt()
+    Mat4 idt()
     {
         m00 = 1f;
         m01 = 0f;
@@ -392,7 +530,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 inv(in Mat4 mat)
+    static Mat4 inv(in Mat4 mat)
     {
         float lDet = mat.m30 * mat.m21 * mat.m12 * mat.m03 - mat.m20 * mat.m31
             * mat.m12 * mat.m03 - mat.m30 * mat.m11 * mat.m22 * mat.m03 + mat.m10
@@ -480,18 +618,18 @@ public struct Mat4
         return tmp;
     }
 
-    public float det3x3()
+    float det3x3()
     {
         return m00 * m11 * m22 + m01 * m12 * m20 + m02 * m10 * m21 - m00 * m12 * m21
             - m01 * m10 * m22 - m02 * m11 * m20;
     }
 
-    public static Mat4 createOrthographicOffCenter(float x, float y, float width, float height)
+    static Mat4 createOrthographicOffCenter(float x, float y, float width, float height)
     {
         return createOrthographic(x, x + width, y, y + height, 0, 1);
     }
 
-    public static Mat4 createOrthographic(float left, float right, float bottom,
+    static Mat4 createOrthographic(float left, float right, float bottom,
             float top, float near = 0f, float far = 1f)
     {
         auto ret = Mat4.identity();
@@ -524,7 +662,7 @@ public struct Mat4
         return ret;
     }
 
-    public static Mat4 createLookAt(Vec3 position, Vec3 target, Vec3 up)
+    static Mat4 createLookAt(Vec3 position, Vec3 target, Vec3 up)
     {
 
         auto tmp = target - position;
@@ -536,7 +674,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 createTranslation(float x, float y, float z)
+    static Mat4 createTranslation(float x, float y, float z)
     {
         auto ret = Mat4.identity();
         ret.m03 = x;
@@ -546,13 +684,13 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 createRotation(Vec3 axis, float degrees)
+    static Mat4 createRotation(Vec3 axis, float degrees)
     {
         throw new Exception("not impl");
     }
 
     pragma(inline);
-    public static Mat4 createScale(Vec3 scale)
+    static Mat4 createScale(Vec3 scale)
     {
         auto ret = Mat4.identity;
         ret.m00 = scale.x;
@@ -575,7 +713,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 createProjection(float near, float far, float fovy, float aspectRatio)
+    static Mat4 createProjection(float near, float far, float fovy, float aspectRatio)
     {
         auto ret = Mat4.identity();
         float l_fd = cast(float)(1.0 / tan((fovy * (PI / 180)) / 2.0));
@@ -601,7 +739,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 createLookAt(Vec3 direction, Vec3 up)
+    static Mat4 createLookAt(Vec3 direction, Vec3 up)
     {
         auto l_vez = direction.nor();
         auto l_vex = direction.nor();
@@ -624,8 +762,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 set(float translationX, float translationY, float translationZ,
-            float quaternionX, float quaternionY, float quaternionZ, float quaternionW)
+    static Mat4 set(float translationX, float translationY, float translationZ, float quaternionX, float quaternionY, float quaternionZ, float quaternionW)
     {
         float xs = quaternionX * 2.0f, ys = quaternionY * 2.0f, zs = quaternionZ * 2.0f;
         float wx = quaternionW * xs, wy = quaternionW * ys, wz = quaternionW * zs;
@@ -656,7 +793,38 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 set(in Vec3 translation, in Quat rotation, in Vec3 scale)
+    static Mat4 set(in Vec3 translation, in Quat rotation)
+    {
+        float xs = rotation.x * 2.0f, ys = rotation.y * 2.0f, zs = rotation.z * 2.0f;
+        float wx = rotation.w * xs, wy = rotation.w * ys, wz = rotation.w * zs;
+        float xx = rotation.x * xs, xy = rotation.x * ys, xz = rotation.x * zs;
+        float yy = rotation.y * ys, yz = rotation.y * zs, zz = rotation.z * zs;
+
+        auto ret = Mat4.identity();
+        ret.m00 = (1.0f - (yy + zz));
+        ret.m01 = (xy - wz);
+        ret.m02 = (xz + wy);
+        ret.m03 = translation.x;
+
+        ret.m10 = (xy + wz);
+        ret.m11 = (1.0f - (xx + zz));
+        ret.m12 = (yz - wx);
+        ret.m13 = translation.y;
+
+        ret.m20 = (xz - wy);
+        ret.m21 = (yz + wx);
+        ret.m22 = (1.0f - (xx + yy));
+        ret.m23 = translation.z;
+
+        ret.m30 = 0.0f;
+        ret.m31 = 0.0f;
+        ret.m32 = 0.0f;
+        ret.m33 = 1.0f;
+        return ret;
+    }
+
+    pragma(inline);
+    static Mat4 set(in Vec3 translation, in Quat rotation, in Vec3 scale)
     {
         float xs = rotation.x * 2.0f, ys = rotation.y * 2.0f, zs = rotation.z * 2.0f;
         float wx = rotation.w * xs, wy = rotation.w * ys, wz = rotation.w * zs;
@@ -738,7 +906,7 @@ public struct Mat4
     }
 
     pragma(inline);
-    public static Mat4 multiply(in Mat4 lhs, in Mat4 rhs)
+    static Mat4 multiply(in Mat4 lhs, in Mat4 rhs)
     {
         return Mat4(lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20 + lhs.m03 * rhs.m30,
                 lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20 + lhs.m13 * rhs.m30,
@@ -762,14 +930,14 @@ public struct Mat4
     }
 }
 
-public struct Quat
+struct Quat
 {
-    public float x = 0f;
-    public float y = 0f;
-    public float z = 0f;
-    public float w = 0f;
+    float x = 0f;
+    float y = 0f;
+    float z = 0f;
+    float w = 0f;
 
-    public this(float x, float y, float z, float w)
+    this(float x, float y, float z, float w)
     {
         this.x = x;
         this.y = y;
@@ -777,13 +945,13 @@ public struct Quat
         this.w = w;
     }
 
-    public float len2()
+    float len2()
     {
         return x * x + y * y + z * z + w * w;
     }
 
     pragma(inline);
-    public Quat nor()
+    Quat nor()
     {
         float invMagnitude = 1f / cast(float) sqrt(x * x + y * y + z * z + w * w);
         x *= invMagnitude;
@@ -793,7 +961,7 @@ public struct Quat
         return this;
     }
 
-    public void slerp(in Quat end, float alpha)
+    void slerp(in Quat end, float alpha)
     {
         float d = x * end.x + y * end.y + z * end.z + w * end.w;
         float absDot = d < 0.0f ? -d : d;
@@ -827,13 +995,13 @@ public struct Quat
         w = (scale0 * w) + (scale1 * end.w);
     }
 
-    public static @property Quat identity()
+    static @property Quat identity()
     {
         return Quat(0, 0, 0, 1);
     }
 
     pragma(inline);
-    public static Quat fromAxis(float x, float y, float z, float rad)
+    static Quat fromAxis(float x, float y, float z, float rad)
     {
         float d = Vec3.len(x, y, z);
         if (d == 0f)
@@ -847,12 +1015,12 @@ public struct Quat
     }
 
     pragma(inline);
-    public static Quat fromAxis(in Vec3 axis, float rad)
+    static Quat fromAxis(in Vec3 axis, float rad)
     {
         return fromAxis(axis.x, axis.y, axis.z, rad);
     }
 
-    public static Quat slerp(in Quat quaternion1, Quat quaternion2, float amount)
+    static Quat slerp(in Quat quaternion1, Quat quaternion2, float amount)
     {
         float num2;
         float num3;
@@ -887,7 +1055,7 @@ public struct Quat
     }
 
     pragma(inline);
-    public static Quat lerp(in Quat lhs, in Quat rhs, float t)
+    static Quat lerp(in Quat lhs, in Quat rhs, float t)
     {
         if (t > 1f)
         {
@@ -911,16 +1079,10 @@ public struct Quat
     }
 }
 
-public struct BoundingBox
+struct BoundingBox
 {
-    public Vec3 min;
-    public Vec3 max;
-    public Vec3 cnt;
-    public Vec3 dim;
-}
-
-pragma(inline);
-bool isEqual(float a, float b)
-{
-    return abs(a - b) <= FLOAT_ROUNDING_ERROR;
+    Vec3 min;
+    Vec3 max;
+    Vec3 cnt;
+    Vec3 dim;
 }

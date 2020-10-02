@@ -138,7 +138,7 @@ class MyGame : IApp
 
 int main()
 {
-    auto config = new Configuration;
+    auto config = Config();
     config.windowTitle = "Sample 09 - Skeletal Animation";
     auto game = new MyGame;
     auto engine = new Engine(game, config);

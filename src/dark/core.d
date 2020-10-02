@@ -15,15 +15,15 @@ import dark.graphics;
 import dark.audio;
 import dark.input;
 
-public class Core
+class Core
 {
-	public static Graphics graphics;
-	public static Audio audio;
-	public static Input input;
-	public static Logger logger;
+	static Graphics graphics;
+	static Audio audio;
+	static Input input;
+	static Logger logger;
 }
 
-public interface IApp
+interface IApp
 {
 	void create();
 	void update(float dt);

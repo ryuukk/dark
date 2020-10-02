@@ -50,7 +50,7 @@ void main() {
 }
 ";
 
-public class SpriteBatch
+class SpriteBatch
 {
     private Mesh _mesh;
 
@@ -78,11 +78,11 @@ public class SpriteBatch
 
     private Color _color = Color.WHITE;
 
-    public int renderCalls = 0;
-    public int totalRenderCalls = 0;
-    public int maxSpritesInBatch = 0;
+    int renderCalls = 0;
+    int totalRenderCalls = 0;
+    int maxSpritesInBatch = 0;
 
-    public this(int size = 1000, ShaderProgram defaultShader = null)
+    this(int size = 1000, ShaderProgram defaultShader = null)
     {
         assert(size < 8191, "spritebatch too big");
 
@@ -121,13 +121,13 @@ public class SpriteBatch
             _shader = defaultShader;
     }
 
-    public void setProjectionMatrix(Mat4 projection)
+    void setProjectionMatrix(Mat4 projection)
     {
         assert(!_drawing, "must call end");
         _projectionMatrix = projection;
     }
 
-    public void begin()
+    void begin()
     {
         assert(!_drawing, "must call end");
         renderCalls = 0;
@@ -142,7 +142,7 @@ public class SpriteBatch
         _drawing = true;
     }
 
-    public void end()
+    void end()
     {
         assert(_drawing, "must call begin");
         if (_idx > 0)
@@ -160,7 +160,7 @@ public class SpriteBatch
             _shader.end();
     }
 
-    public void flush()
+    void flush()
     {
         if (_idx == 0)
             return;
@@ -216,7 +216,7 @@ public class SpriteBatch
         _invTexHeight = 1.0f / texture.getHeight();
     }
 
-    public void draw(Texture2D texture, float x, float y, float width, float height)
+    void draw(Texture2D texture, float x, float y, float width, float height)
     {
         assert(_drawing, "must call begin");
 
@@ -262,7 +262,7 @@ public class SpriteBatch
         _idx = idx + 20;
     }
 
-    public void draw(Texture2D texture, float[] v, int offset, int count)
+    void draw(Texture2D texture, float[] v, int offset, int count)
     {
         assert(_drawing, "must call begin");
 
@@ -302,7 +302,7 @@ public class SpriteBatch
         }
     }
 
-    public bool isBlendingEnabled()
+    bool isBlendingEnabled()
     {
         return !_blendingDisabled;
     }

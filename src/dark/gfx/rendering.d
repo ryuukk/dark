@@ -13,9 +13,9 @@ import dark.gfx.shader;
 import dark.gfx.shader_provider;
 import dark.gfx.model_instance;
 
-public class RenderContext
+class RenderContext
 {
-    public TextureBinder textureBinder;
+    TextureBinder textureBinder;
 
     private bool blending;
     private int blendSFactor;
@@ -26,12 +26,12 @@ public class RenderContext
     private bool depthMask;
     private int cullFace;
 
-    public this(TextureBinder binder)
+    this(TextureBinder binder)
     {
         this.textureBinder = binder;
     }
 
-    public void begin()
+    void begin()
     {
         glDisable(GL_DEPTH_TEST);
         depthFunc = 0;
@@ -44,7 +44,7 @@ public class RenderContext
         textureBinder.begin();
     }
 
-    public void end()
+    void end()
     {
         if (depthFunc != 0)
             glDisable(GL_DEPTH_TEST);
@@ -57,7 +57,7 @@ public class RenderContext
         textureBinder.end();
     }
 
-    public void setDepthMask(bool value)
+    void setDepthMask(bool value)
     {
         if (depthMask != value)
         {
@@ -66,7 +66,7 @@ public class RenderContext
         }
     }
 
-    public void setDepthTest(int depthFunction, float depthRangeNear = 0f, float depthRangeFar = 1f)
+    void setDepthTest(int depthFunction, float depthRangeNear = 0f, float depthRangeFar = 1f)
     {
         bool wasEnabled = depthFunc != 0;
         bool enabled = depthFunction != 0;
@@ -95,7 +95,7 @@ public class RenderContext
         }
     }
 
-    public void setBlending(bool enabled, int sFactor, int dFactor)
+    void setBlending(bool enabled, int sFactor, int dFactor)
     {
         if (enabled != blending)
         {
@@ -113,7 +113,7 @@ public class RenderContext
         }
     }
 
-    public void setCullFace(int face)
+    void setCullFace(int face)
     {
         if (face != cullFace)
         {
@@ -129,13 +129,13 @@ public class RenderContext
     }
 }
 
-public class RenderableBatch
+class RenderableBatch
 {
-    public abstract class FlushablePool(T) : Pool!T
+    abstract class FlushablePool(T) : Pool!T
     {
         Array!T obtained;
 
-        public this(int initialSize = 16, int maxCapacity = 1024)
+        this(int initialSize = 16, int maxCapacity = 1024)
         {
             super(initialSize, maxCapacity);
             obtained = new Array!T();
@@ -159,14 +159,14 @@ public class RenderableBatch
         }
 
     }
-    public class RenderablePool : Pool!Renderable
+    class RenderablePool : Pool!Renderable
     {
-        public override Renderable newObject()
+        override Renderable newObject()
         {
             return new Renderable;
         }
 
-        public override Renderable obtain()
+        override Renderable obtain()
         {
             Renderable renderable = super.obtain();
             renderable.environment = null;
@@ -179,14 +179,14 @@ public class RenderableBatch
         }
     }
 
-    public Camera camera;
-    public Array!Renderable renderables;
-    public RenderContext context;
-    public bool ownContext;
-    public IShaderProvider shaderProvider;
-    public RenderablePool renderablesPool;
+    Camera camera;
+    Array!Renderable renderables;
+    RenderContext context;
+    bool ownContext;
+    IShaderProvider shaderProvider;
+    RenderablePool renderablesPool;
 
-    public this(IShaderProvider shaderProvider)
+    this(IShaderProvider shaderProvider)
     {
         renderables.reserve(16);
         renderablesPool = new RenderablePool;
@@ -195,14 +195,14 @@ public class RenderableBatch
         this.shaderProvider = shaderProvider;
     }
 
-    public void begin(Camera camera)
+    void begin(Camera camera)
     {
         this.camera = camera;
         if (ownContext)
             context.begin();
     }
 
-    public void end()
+    void end()
     {
         flush();
         if (ownContext)
@@ -210,7 +210,7 @@ public class RenderableBatch
         camera = null;
     }
 
-    public void flush()
+    void flush()
     {
         // sort
         IShader currentShader = null;
@@ -238,14 +238,14 @@ public class RenderableBatch
 
     }
 
-    public void render(Renderable renderable)
+    void render(Renderable renderable)
     {
         renderable.shader = shaderProvider.getShader(renderable);
         renderable.meshPart.mesh.autoBind = false;
         renderables.insert(renderable);
     }
 
-   public void render(IRenderableProvider renderableProvider)
+   void render(IRenderableProvider renderableProvider)
    {
        int offset = cast(int) renderables.length;
        renderableProvider.getRenderables(renderables, renderablesPool);

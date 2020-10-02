@@ -13,23 +13,23 @@ import dark.gfx.mesh_part;
 import dark.gfx.material;
 import dark.gfx.renderable;
 
-public class Node
+class Node
 {
-    public string id;
-    public bool inheritTransform = true;
-    public bool isAnimated = false;
+    string id;
+    bool inheritTransform = true;
+    bool isAnimated = false;
 
-    public Vec3 translation = Vec3(0, 0, 0);
-    public Quat rotation = Quat.identity;
-    public Vec3 scale = Vec3(1, 1, 1);
+    Vec3 translation = Vec3(0, 0, 0);
+    Quat rotation = Quat.identity;
+    Vec3 scale = Vec3(1, 1, 1);
 
-    public Mat4 localTransform = Mat4.identity;
-    public Mat4 globalTransform = Mat4.identity;
+    Mat4 localTransform = Mat4.identity;
+    Mat4 globalTransform = Mat4.identity;
 
-    public NodePart[] parts;
+    NodePart[] parts;
 
-    public Node parent;
-    public Node[] children;
+    Node parent;
+    Node[] children;
 
     /*
     override size_t toHash()
@@ -44,13 +44,13 @@ public class Node
     }
     */
 
-    public void calculateLocalTransform()
+    void calculateLocalTransform()
     {
         if (!isAnimated)
             localTransform = Mat4.set(translation, rotation, scale);
     }
 
-    public void calculateWorldTransform()
+    void calculateWorldTransform()
     {
         if (inheritTransform && parent !is null)
             globalTransform = Mat4.mult(parent.globalTransform, localTransform);
@@ -58,7 +58,7 @@ public class Node
             globalTransform = localTransform;
     }
 
-    public void calculateTransforms(bool recursive)
+    void calculateTransforms(bool recursive)
     {
         calculateLocalTransform();
         calculateWorldTransform();
@@ -70,7 +70,7 @@ public class Node
         }
     }
 
-    public void calculateBoneTransforms(bool recursive)
+    void calculateBoneTransforms(bool recursive)
     {
         foreach (NodePart part; parts)
         {
@@ -95,7 +95,7 @@ public class Node
         }
     }
 
-    public void detach()
+    void detach()
     {
         if (parent !is null)
         {
@@ -104,14 +104,14 @@ public class Node
         }
     }
 
-    public Node copy()
+    Node copy()
     {
         Node node = new Node();
         node.set(this);
         return node;
     }
 
-    public Node set(Node other)
+    Node set(Node other)
     {
         detach();
 
@@ -140,17 +140,17 @@ public class Node
         return this;
     }
 
-    public void resizeChildren(int l)
+    void resizeChildren(int l)
     {
         children.length = l;
     }
-    public int addChild(Node child)
+    int addChild(Node child)
     {
         // todo: resize array
         return insertChild(-1, child);
     }
 
-    public int insertChild(int index, Node child)
+    int insertChild(int index, Node child)
     {
         // todo: redo this
         for (Node p = this; p !is null; p = p.parent)
@@ -167,7 +167,7 @@ public class Node
         return index;
     }
 
-    public int indexOf(Node child)
+    int indexOf(Node child)
     {
         for (int i = 0; i < children.length; i++)
         {
@@ -177,7 +177,7 @@ public class Node
         return -1;
     }
 
-    public bool removeChild(Node child)
+    bool removeChild(Node child)
     {
         int index = indexOf(child);
         if (index == -1)

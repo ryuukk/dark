@@ -113,13 +113,13 @@ extern (C) void refreshCallback(GLFWwindow* window) nothrow
 // --
 
 
-public enum HdpiMode
+enum HdpiMode
 {
 	Logical,
 	Pixels
 }
 
-public class Graphics
+class Graphics
 {
 	private GLFWwindow* _window;
 	private int _width = 1280;
@@ -142,11 +142,11 @@ public class Graphics
 	private int _fps = 0;
 
 	private IApp _app;
-	private Configuration _config;
+	private Config _config;
 
 	private bool _initialized;
 
-	public this(IApp app, Configuration config)
+	this(IApp app, Config config)
 	{
 		_app = app;
 		_config = config;
@@ -159,7 +159,7 @@ public class Graphics
 		glfwGetWindowSize(_window, &_logicalWidth, &_logicalHeight);
 	}
 
-	public bool createContext()
+	bool createContext()
 	{
 		GLFWSupport ret = loadGLFW();
 
@@ -184,8 +184,10 @@ public class Graphics
 		}
 
 		if (!glfwInit())
+		{
+			writeln("Unable to init glfw");
 			return false;
-
+		}
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, _config.glMajVersion);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, _config.glMinVersion);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -197,6 +199,7 @@ public class Graphics
 		_window = glfwCreateWindow(_config.windowWidth, _config.windowHeight, _config.windowTitle.ptr, null, null);
 		if (!_window)
 		{
+			writeln("Unnable to create window ", ret, " ", _config);
 			glfwTerminate();
 			return false;
 		}
@@ -224,6 +227,10 @@ public class Graphics
 		updateBackbufferInfo();
 
 		GLSupport retVal = loadOpenGL();
+
+		//Core.logger.infof("OpenGL: 	  %s", retVal);
+		writeln(retVal);
+
 
 		// delay window opening to avoid positioning glitch and white window
 		glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -253,7 +260,7 @@ public class Graphics
 		return true;
 	}
 
-	public void update()
+	void update()
 	{
 		if (!_initialized)
 		{
@@ -293,47 +300,47 @@ public class Graphics
 		_frameId++;
 	}
 
-	public bool shouldClose()
+	bool shouldClose()
 	{
 		return glfwWindowShouldClose(_window) == 1;
 	}
 
-	public float deltaTime()
+	float deltaTime()
 	{
 		return _deltaTime;
 	}
 
-	public int fps()
+	int fps()
 	{
 		return _fps;
 	}
 
-	public GLFWwindow* windowHandle()
+	GLFWwindow* windowHandle()
 	{
 		return _window;
 	}
 
-	public IApp getApp()
+	IApp getApp()
 	{
 		return _app;
 	}
 
-	public bool isInitialized()
+	bool isInitialized()
 	{
 		return _initialized;
 	}
 
-	public bool isIconified()
+	bool isIconified()
 	{
 		return _iconified;
 	}
 
-	public HdpiMode getHdpiMode()
+	HdpiMode getHdpiMode()
 	{
 		return _hdpiMode;
 	}
 
-	public int getWidth()
+	int getWidth()
 	{
 		if (_hdpiMode == HdpiMode.Pixels)
 		{
@@ -345,7 +352,7 @@ public class Graphics
 		}
 	}
 
-	public int getHeight()
+	int getHeight()
 	{
 		if (_hdpiMode == HdpiMode.Pixels)
 		{
@@ -357,22 +364,22 @@ public class Graphics
 		}
 	}
 
-	public int getBackBufferWidth()
+	int getBackBufferWidth()
 	{
 		return _backBufferWidth;
 	}
 
-	public int getBackBufferHeight()
+	int getBackBufferHeight()
 	{
 		return _backBufferHeight;
 	}
 
-	public int getLogicalWidth()
+	int getLogicalWidth()
 	{
 		return _logicalWidth;
 	}
 
-	public int getLogicalHeight()
+	int getLogicalHeight()
 	{
 		return _logicalHeight;
 	}

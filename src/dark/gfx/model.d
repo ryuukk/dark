@@ -21,18 +21,18 @@ import dark.gfx.renderable;
 import dark.gfx.model_loader;
 import dark.gfx.node_part;
 
-public class Model
+class Model
 {
-    public string id;
-    public Material[] materials;
-    public Node[] nodes;
-    public Animation[] animations;
-    public Mesh[] meshes;
-    public MeshPart[] meshParts;
+    string id;
+    Material[] materials;
+    Node[] nodes;
+    Animation[] animations;
+    Mesh[] meshes;
+    MeshPart[] meshParts;
 
     Bone[][NodePart] nodePartBones;
 
-    public void load(ModelData data)
+    void load(ModelData data)
     {
         id = data.id;
         loadMeshes(data.meshes);
@@ -276,7 +276,7 @@ public class Model
         }
     }
 
-    public void calculateTransforms()
+    void calculateTransforms()
     {
         int n = cast(int) nodes.length;
         for (int i = 0; i < n; i++)

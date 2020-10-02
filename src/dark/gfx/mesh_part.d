@@ -4,32 +4,32 @@ import dark.math;
 import dark.gfx.shader_program;
 import dark.gfx.mesh;
 
-public class MeshPart
+class MeshPart
 {
-    public string id;
-    public int primitiveType;
-    public int offset;
-    public int size;
-    public Mesh mesh;
+    string id;
+    int primitiveType;
+    int offset;
+    int size;
+    Mesh mesh;
 
-    public Vec3 center;
-    public Vec3 halfExtents;
-    public float radius = -1;
+    Vec3 center;
+    Vec3 halfExtents;
+    float radius = -1;
 
-    public this()
+    this()
     {}
 
-    public this(MeshPart other)
+    this(MeshPart other)
     {
         set(other);
     }
 
-    public void update()
+    void update()
     {
         // todo: update bounds
     }
     
-	public MeshPart set (string id, Mesh mesh, int offset, int size, int type) 
+	MeshPart set (string id, Mesh mesh, int offset, int size, int type) 
     {
 		this.id = id;
 		this.mesh = mesh;
@@ -42,7 +42,7 @@ public class MeshPart
 		return this;
 	}
     
-	public MeshPart set (MeshPart other) {
+	MeshPart set (MeshPart other) {
 		this.id = other.id;
 		this.mesh = other.mesh;
 		this.offset = other.offset;
@@ -54,7 +54,7 @@ public class MeshPart
 		return this;
 	}
     
-	public void render (ShaderProgram shader, bool autoBind) 
+	void render (ShaderProgram shader, bool autoBind) 
     {
 		mesh.render(shader, primitiveType, offset, size, autoBind);
 	}

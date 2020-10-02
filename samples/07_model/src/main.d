@@ -141,7 +141,7 @@ class MyGame : IApp
 
 int main()
 {
-    auto config = new Configuration;
+    auto config = Config();
     config.windowTitle = "Sample 07 - Model";
     auto game = new MyGame;
     auto engine = new Engine(game, config);

@@ -116,9 +116,9 @@ class MyGame : IApp
 
     void update(float dt)
     {
-        _a += dt * 10;
+        _a = (_a + dt) % dark.math.PI2 - dark.math.PI;
 
-        _cubeTransform = Mat4.set(Vec3(), Quat.fromAxis(1,1,1, _a), Vec3(1,1,1));
+        _cubeTransform = Mat4.set(Vec3(), Quat.fromAxis(1 * dark.math.cos(_a),1* dark.math.sin(_a),1* dark.math.cos(_a), _a* dark.math.sin(_a)), Vec3(1,1,1));
     }
 
     void render(float dt)
@@ -153,7 +153,7 @@ class MyGame : IApp
 
 int main()
 {
-    auto config = new Configuration;
+    auto config = Config();
     config.windowTitle = "Sample 06 - Cube";
     auto game = new MyGame;
     auto engine = new Engine(game, config);

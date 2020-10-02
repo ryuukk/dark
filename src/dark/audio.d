@@ -1,12 +1,12 @@
 module dark.audio;
 
 
-public class Audio
+class Audio
 {
 
 }
 
-public class Sound
+class Sound
 {
 
 }

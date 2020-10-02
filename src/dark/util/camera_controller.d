@@ -31,7 +31,7 @@ class CameraController : InputAdapter
         _camera = camera;
     }
 
-    public override bool keyDown(int keycode)
+    override bool keyDown(int keycode)
     {
         switch (keycode)
         {
@@ -59,7 +59,7 @@ class CameraController : InputAdapter
         return _strafeLeft || _strafeRight || _forward || _backward || _up || _down;
     }
 
-    public override bool keyUp(int keycode)
+    override bool keyUp(int keycode)
     {
         switch (keycode)
         {
@@ -87,7 +87,7 @@ class CameraController : InputAdapter
         return _strafeLeft || _strafeRight || _forward || _backward || _up || _down;
     }
     
-    public override bool touchDragged(int screenX, int screenY, int pointer)
+    override bool touchDragged(int screenX, int screenY, int pointer)
     {
         float deltaX = -Core.input.getDeltaX() * _degreesPerPixel;
         float deltaY = -Core.input.getDeltaY() * _degreesPerPixel;
@@ -101,7 +101,7 @@ class CameraController : InputAdapter
         return true;
     }
 
-    public void update(float dt)
+    void update(float dt)
     {
         if (_forward)
         {

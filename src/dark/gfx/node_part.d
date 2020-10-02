@@ -10,38 +10,38 @@ import dark.gfx.material;
 import dark.gfx.renderable;
 import dark.math;
 
-public struct InvBoneBind
+struct InvBoneBind
 {
-    public Node node;
-    public Mat4 transform;
+    Node node;
+    Mat4 transform;
 
-    public this(Node node, Mat4 transform)
+    this(Node node, Mat4 transform)
     {
         this.node = node;
         this.transform = transform;
     }
 }
 
-public class NodePart
+class NodePart
 {
-    public MeshPart meshPart;
-    public Material material;
-    public InvBoneBind[] invBoneBindTransforms;
-    public Mat4[] bones;
-    public bool enabled = true;
+    MeshPart meshPart;
+    Material material;
+    InvBoneBind[] invBoneBindTransforms;
+    Mat4[] bones;
+    bool enabled = true;
 
-    public this()
+    this()
     {
     }
 
-    public NodePart copy()
+    NodePart copy()
     {
         auto node =  new NodePart();
         node.set(this);
         return node;
     }
 
-    public NodePart set(NodePart other)
+    NodePart set(NodePart other)
     {
         meshPart = new MeshPart(other.meshPart);
         material = other.material;

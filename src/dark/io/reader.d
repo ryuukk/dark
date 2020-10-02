@@ -4,7 +4,7 @@ import std.stdio;
 import std.bitmanip;
 import std.file;
 
-public class BinaryReader
+class BinaryReader
 {
 	ubyte[] _data;
 	int currentPos;

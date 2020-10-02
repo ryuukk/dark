@@ -9,16 +9,16 @@ import dark.math;
 import dark.gfx.shader_program;
 import dark.gfx.buffers;
 
-public class Mesh
+class Mesh
 {
     private VertexBuffer _vertices;
     private IndexBuffer _indices;
     private VertexAttributes _attributes;
 
-    public bool autoBind = true;
+    bool autoBind = true;
     private bool _isVertexArray;
 
-    public this(bool isStatic, int maxVertices, int maxIndices, VertexAttribute[] attributes...)
+    this(bool isStatic, int maxVertices, int maxIndices, VertexAttribute[] attributes...)
     {
         _attributes = new VertexAttributes(attributes);
         _vertices = new VertexBuffer(isStatic, maxVertices, _attributes);
@@ -26,7 +26,7 @@ public class Mesh
         _isVertexArray = false;
     }
 
-    public this(bool isStatic, int maxVertices, int maxIndices, VertexAttributes attributes)
+    this(bool isStatic, int maxVertices, int maxIndices, VertexAttributes attributes)
     {
         // todo: for the moment max vertices/indices have no effect, since when created, it'll use what ever length the vertices data will have
         // this can be problematic since we can have dynamic meshes
@@ -38,40 +38,40 @@ public class Mesh
         _isVertexArray = false;
     }
 
-    public void bind(ShaderProgram shader, int[] locations)
+    void bind(ShaderProgram shader, int[] locations)
     {
         _vertices.bind(shader, locations);
         if (_indices.getNumIndices() > 0)
             _indices.bind();
     }
 
-    public void unbind(ShaderProgram shader, int[] locations)
+    void unbind(ShaderProgram shader, int[] locations)
     {
         _vertices.unbind(shader, locations);
         if (_indices.getNumIndices() > 0)
             _indices.unbind();
     }
 
-    public void setVertices(float[] vertices)
+    void setVertices(float[] vertices)
     {
         _vertices.setVertices(vertices, 0, cast(int) vertices.length);
     }
-    public void setVertices(float[] vertices, int offset, int count)
+    void setVertices(float[] vertices, int offset, int count)
     {
         _vertices.setVertices(vertices, offset, count);
     }
 
-    public void setIndices(short[] indices)
+    void setIndices(short[] indices)
     {
         _indices.setIndices(indices, 0, cast(int) indices.length);
     }
 
-    public void render(ShaderProgram shader, int primitiveType)
+    void render(ShaderProgram shader, int primitiveType)
     {
         render(shader, primitiveType, 0, _indices.getNumMaxIndices() > 0 ? getNumIndices() : getNumVertices(), autoBind);
     }
 
-    public void render(ShaderProgram shader, int primitiveType, int offset, int count, bool autoBind)
+    void render(ShaderProgram shader, int primitiveType, int offset, int count, bool autoBind)
     {
         if (count == 0)
             return;
@@ -108,27 +108,27 @@ public class Mesh
             unbind(shader, null);
     }
 
-    public int getNumIndices()
+    int getNumIndices()
     {
         return _indices.getNumIndices();
     }
 
-    public int getNumVertices()
+    int getNumVertices()
     {
         return _vertices.getNumVertices();
     }
 
-    public int getMaxVertices()
+    int getMaxVertices()
     {
         return _vertices.getNumMaxVertices();
     }
 
-    public int getMaxIndices()
+    int getMaxIndices()
     {
         return _indices.getNumMaxIndices();
     }
 
-    public VertexAttributes getVertexAttributes()
+    VertexAttributes getVertexAttributes()
     {
         return _attributes;
     }

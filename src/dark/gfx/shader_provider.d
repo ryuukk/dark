@@ -5,16 +5,16 @@ import dark.gfx.shader_program;
 import dark.gfx.renderable;
 
 
-public interface IShaderProvider
+interface IShaderProvider
 {
     IShader getShader(Renderable renderable);
 }
 
-public abstract class BaseShaderProvider : IShaderProvider
+abstract class BaseShaderProvider : IShaderProvider
 {
     private IShader[] shaders;
 
-    public IShader getShader(Renderable renderable)
+    IShader getShader(Renderable renderable)
     {
         IShader suggestedShader = renderable.shader;
         if (suggestedShader !is null && suggestedShader.canRender(renderable))
@@ -34,16 +34,16 @@ public abstract class BaseShaderProvider : IShaderProvider
     protected abstract IShader createShader(Renderable renderable);
 }
 
-public class DefaultShaderProvider : BaseShaderProvider
+class DefaultShaderProvider : BaseShaderProvider
 {
-    public DefaultShader.Config config;
+    DefaultShader.Config config;
 
-    public this(string vertexShader, string fragmentShader)
+    this(string vertexShader, string fragmentShader)
     {
         config = DefaultShader.Config(vertexShader, fragmentShader);
     }
 
-    public override IShader createShader(Renderable renderable)
+    override IShader createShader(Renderable renderable)
     {
         string vs = "#version 330\n";
         string fs = "#version 330\n";

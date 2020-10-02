@@ -16,7 +16,7 @@ import dark.gfx.renderable;
 import dark.gfx.shader_program;
 import dark.math;
 
-public interface IShader
+interface IShader
 {
     void init();
     int compareTo(IShader other);
@@ -27,42 +27,42 @@ public interface IShader
 }
 
 
-public interface IValidator
+interface IValidator
 {
     bool validate(BaseShader shader, int inputId, Renderable renderable);
 }
 
-public interface ISetter
+interface ISetter
 {
     bool isGlobal(BaseShader shader, int inputId);
 
     void set(BaseShader shader, int inputId, Renderable renderable, Attributes combinedAttributes);
 }
 
-public abstract class GlobalSetter : ISetter
+abstract class GlobalSetter : ISetter
 {
-    public bool isGlobal(BaseShader shader, int inputId)
+    bool isGlobal(BaseShader shader, int inputId)
     {
         return true;
     }
 }
 
-public abstract class LocalSetter : ISetter
+abstract class LocalSetter : ISetter
 {
-    public bool isGlobal(BaseShader shader, int inputId)
+    bool isGlobal(BaseShader shader, int inputId)
     {
         return false;
     }
 }
 
-public class Uniform : IValidator
+class Uniform : IValidator
 {
-    public string aliass;
-    public ulong materialMask;
-    public ulong environmentMask;
-    public ulong overallMask;
+    string aliass;
+    ulong materialMask;
+    ulong environmentMask;
+    ulong overallMask;
 
-    public this(string aliass, ulong materialMask = 0, ulong environmentMask = 0,
+    this(string aliass, ulong materialMask = 0, ulong environmentMask = 0,
             ulong overallMask = 0)
     {
         this.aliass = aliass;
@@ -71,7 +71,7 @@ public class Uniform : IValidator
         this.overallMask = overallMask;
     }
 
-    public bool validate(BaseShader shader, int inputId, Renderable renderable)
+    bool validate(BaseShader shader, int inputId, Renderable renderable)
     {
         bool hasMaterial = (renderable !is null && renderable.material !is null);
         bool hasEnvironment = (renderable !is null && renderable.environment !is null);
@@ -82,26 +82,26 @@ public class Uniform : IValidator
     }
 }
 
-public abstract class BaseShader : IShader
+abstract class BaseShader : IShader
 {
-    public ShaderProgram program;
-    public RenderContext context;
-    public Camera camera;
+    ShaderProgram program;
+    RenderContext context;
+    Camera camera;
     private Mesh currentMesh;
 
-    public string[] uniforms;
-    public IValidator[] validators;
-    public ISetter[] setters;
-    public int[] locations;
-    public int[] globalUniforms;
-    public int[] localUniforms;
-    public int[int] attributes;
+    string[] uniforms;
+    IValidator[] validators;
+    ISetter[] setters;
+    int[] locations;
+    int[] globalUniforms;
+    int[] localUniforms;
+    int[int] attributes;
 
-    public abstract void init();
-    public abstract int compareTo(IShader other);
-    public abstract bool canRender(Renderable renderable);
+    abstract void init();
+    abstract int compareTo(IShader other);
+    abstract bool canRender(Renderable renderable);
 
-    public void begin(Camera camera, RenderContext context)
+    void begin(Camera camera, RenderContext context)
     {
         this.camera = camera;
         this.context = context;
@@ -110,7 +110,7 @@ public abstract class BaseShader : IShader
         bindGlobal(camera, context);
     }
 
-    public void render(Renderable renderable)
+    void render(Renderable renderable)
     {
         
         if (currentMesh != renderable.meshPart.mesh)
@@ -125,7 +125,7 @@ public abstract class BaseShader : IShader
         renderable.meshPart.render(program, false);
     }
 
-    public void end()
+    void end()
     {
         if (currentMesh !is null)
         {
@@ -136,25 +136,25 @@ public abstract class BaseShader : IShader
         program.end();
     }
     
-    public abstract void bindGlobal(Camera camera, RenderContext context);
-    public abstract void bind(Renderable renderable);
+    abstract void bindGlobal(Camera camera, RenderContext context);
+    abstract void bind(Renderable renderable);
 }
 
-public class DefaultShader : BaseShader
+class DefaultShader : BaseShader
 {
-    public struct Config
+    struct Config
     {
-        public string vertexShader;
-        public string fragmentShader;
-        public int numDirectionalLights = 2;
-        public int numPointLights = 5;
-        public int numSpotLights = 0;
-        public int numBones = 20;
-        public bool ignoreUnimplemented = true;
-        public int defaultCullFace = -1;
-        public int defaultDepthFunc = -1;
+        string vertexShader;
+        string fragmentShader;
+        int numDirectionalLights = 2;
+        int numPointLights = 5;
+        int numSpotLights = 0;
+        int numBones = 20;
+        bool ignoreUnimplemented = true;
+        int defaultCullFace = -1;
+        int defaultDepthFunc = -1;
 
-        public this(string vs, string fs)
+        this(string vs, string fs)
         {
             vertexShader = vs;
             fragmentShader = fs;
@@ -162,62 +162,62 @@ public class DefaultShader : BaseShader
     }
 
     // Global uniforms
-    public int u_projTrans;
-    public int u_viewTrans;
-    public int u_projViewTrans;
-    public int u_cameraPosition;
-    public int u_cameraDirection;
-    public int u_cameraUp;
-    public int u_cameraNearFar;
-    public int u_time;
+    int u_projTrans;
+    int u_viewTrans;
+    int u_projViewTrans;
+    int u_cameraPosition;
+    int u_cameraDirection;
+    int u_cameraUp;
+    int u_cameraNearFar;
+    int u_time;
     // Object uniforms
-    public int u_worldTrans;
-    public int u_viewWorldTrans;
-    public int u_projViewWorldTrans;
-    public int u_normalMatrix;
-    public int u_bones;
+    int u_worldTrans;
+    int u_viewWorldTrans;
+    int u_projViewWorldTrans;
+    int u_normalMatrix;
+    int u_bones;
     // Material uniforms
-    public int u_shininess;
-    public int u_opacity;
-    public int u_diffuseColor;
-    public int u_diffuseTexture;
-    public int u_diffuseUVTransform;
-    public int u_specularColor;
-    public int u_specularTexture;
-    public int u_specularUVTransform;
-    public int u_emissiveColor;
-    public int u_emissiveTexture;
-    public int u_emissiveUVTransform;
-    public int u_reflectionColor;
-    public int u_reflectionTexture;
-    public int u_reflectionUVTransform;
-    public int u_normalTexture;
-    public int u_normalUVTransform;
-    public int u_ambientTexture;
-    public int u_ambientUVTransform;
-    public int u_alphaTest;
+    int u_shininess;
+    int u_opacity;
+    int u_diffuseColor;
+    int u_diffuseTexture;
+    int u_diffuseUVTransform;
+    int u_specularColor;
+    int u_specularTexture;
+    int u_specularUVTransform;
+    int u_emissiveColor;
+    int u_emissiveTexture;
+    int u_emissiveUVTransform;
+    int u_reflectionColor;
+    int u_reflectionTexture;
+    int u_reflectionUVTransform;
+    int u_normalTexture;
+    int u_normalUVTransform;
+    int u_ambientTexture;
+    int u_ambientUVTransform;
+    int u_alphaTest;
         
     // Light uniforms
-    public int u_ambientCubemap;
-    public int u_environmentCubemap;
-    public int u_dirLights0color;
-    public int u_dirLights0direction;
-    public int u_dirLights1color;
-    public int u_pointLights0color;
-    public int u_pointLights0position;
-    public int u_pointLights0intensity;
-    public int u_pointLights1color;
-    public int u_spotLights0color;
-    public int u_spotLights0position;
-    public int u_spotLights0intensity;
-    public int u_spotLights0direction;
-    public int u_spotLights0cutoffAngle;
-    public int u_spotLights0exponent;
-    public int u_spotLights1color;
-    public int u_fogColor;
-    public int u_shadowMapProjViewTrans;
-    public int u_shadowTexture;
-    public int u_shadowPCFOffset;
+    int u_ambientCubemap;
+    int u_environmentCubemap;
+    int u_dirLights0color;
+    int u_dirLights0direction;
+    int u_dirLights1color;
+    int u_pointLights0color;
+    int u_pointLights0position;
+    int u_pointLights0intensity;
+    int u_pointLights1color;
+    int u_spotLights0color;
+    int u_spotLights0position;
+    int u_spotLights0intensity;
+    int u_spotLights0direction;
+    int u_spotLights0cutoffAngle;
+    int u_spotLights0exponent;
+    int u_spotLights1color;
+    int u_fogColor;
+    int u_shadowMapProjViewTrans;
+    int u_shadowTexture;
+    int u_shadowPCFOffset;
 
     private Renderable renderable;
     protected immutable ulong attributesMask;
@@ -229,16 +229,16 @@ public class DefaultShader : BaseShader
     private immutable static ulong optionalAttributes;
 
     /** @deprecated Replaced by {@link Config#defaultCullFace} Set to 0 to disable culling */
-    public static int defaultCullFace = GL_BACK;
+    static int defaultCullFace = GL_BACK;
     /** @deprecated Replaced by {@link Config#defaultDepthFunc} Set to 0 to disable depth test */
-    public static int defaultDepthFunc = GL_LEQUAL;
+    static int defaultDepthFunc = GL_LEQUAL;
 
     shared static this()
     {
         optionalAttributes = IntAttribute.cullFace | DepthTestAttribute.type;
     }
 
-    public this(Renderable renderable, Config config, ShaderProgram program)
+    this(Renderable renderable, Config config, ShaderProgram program)
     {
         this.config = config;
         this.program = program;
@@ -248,7 +248,7 @@ public class DefaultShader : BaseShader
         vertexMask = renderable.meshPart.mesh.getVertexAttributes().getMaskWithSizePacked();
     }
 
-    public override void init()
+    override void init()
     {
             u_projTrans = program.fetchUniformLocation("u_proj", false);
             u_viewTrans = program.fetchUniformLocation("u_viewTrans", false);
@@ -312,14 +312,14 @@ public class DefaultShader : BaseShader
             u_shadowPCFOffset = program.fetchUniformLocation("u_shadowPCFOffset", false);
     }
     
-    public override int compareTo(IShader other)
+    override int compareTo(IShader other)
     {
         if (other is null) return -1;
         if (other == this) return 0;
         return 0; // FIXME compare shaders on their impact on performance
     }
 
-    public override bool canRender(Renderable renderable)
+    override bool canRender(Renderable renderable)
     {
         auto mask = combineAttributeMasks(renderable);
         return (attributesMask == (mask | optionalAttributes))
@@ -327,7 +327,7 @@ public class DefaultShader : BaseShader
                && (renderable.environment !is null) == _lighting;
     }
 
-    public override void bindGlobal(Camera camera, RenderContext context)
+    override void bindGlobal(Camera camera, RenderContext context)
     {
         //for (int i = 0; i < _dirLights.Length; i++)
         //{
@@ -351,7 +351,7 @@ public class DefaultShader : BaseShader
         //    program.setUniform3fv(u_ambientCubemap, AmbientCubemap.white, 0, AmbientCubemap.white.Length);
     }
 
-    public override void bind(Renderable renderable)
+    override void bind(Renderable renderable)
     {
         
         program.setUniformMat4(u_worldTrans, renderable.worldTransform);
@@ -398,7 +398,7 @@ public class DefaultShader : BaseShader
         return mask;
     }
 
-    public static string createPrefix(Renderable renderable, Config config)
+    static string createPrefix(Renderable renderable, Config config)
     {
         import std.array;
 

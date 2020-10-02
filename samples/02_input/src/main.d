@@ -85,7 +85,7 @@ class MyGame : IApp
 
 int main()
 {
-    auto config = new Configuration;
+    auto config = Config();
     config.windowTitle = "Sample 02 - Input";
     auto game = new MyGame;
     auto engine = new Engine(game, config);

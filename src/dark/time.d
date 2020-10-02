@@ -12,7 +12,7 @@ static this()
     sw = StopWatch(AutoStart.yes);
 }
 
-public long nanoTime()
+long nanoTime()
 {
     return sw.peek.total!"nsecs";
 }

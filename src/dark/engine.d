@@ -12,57 +12,58 @@ import dark.graphics;
 import dark.audio;
 import dark.input;
 
-public class Configuration
+struct Config
 {
-	public int glMinVersion = 3;
-	public int glMajVersion = 3;
+	int glMinVersion = 3;
+	int glMajVersion = 3;
 
-	public int windowWidth = 1280;
-	public int windowHeight = 720;
+	int windowWidth = 1280;;
+	int windowHeight = 720;
 
-	public int windowX = -1;
-	public int windowY = -1;
+	int windowX = -1;
+	int windowY = -1;
 
-	public string windowTitle = "";
+	string windowTitle = "DARK";
 
-	public bool vsync = true;
+	bool vsync = true;
 
-	public bool logToFile = false;
-	public string logPath = "log.txt";
+	bool logToFile = false;
+	string logPath = "log.txt";
 }
 
-class AppLogger : Logger
+Config default_config(string title)
 {
-	this(LogLevel lv = LogLevel.all) @safe
-	{
-		super(lv);
-	}
-
-	override void writeLogMsg(ref LogEntry payload)
-	{
-		writeln(format("[%s] (%s:%s) %s", payload.logLevel, payload.funcName,
-				payload.line, payload.msg));
-
-	}
+	Config config;
+	config.glMinVersion = 3;
+	config.glMajVersion = 3;
+	config.windowWidth = 1280;
+	config.windowHeight = 720;
+	config.windowX = -1;
+	config.windowY = -1;
+	config.windowTitle = title;
+	config.vsync = true;
+	config.logToFile = false;
+	config.logPath = "log.txt";
+	return config;
 }
 
-public class Engine
+class Engine
 {
 	private Graphics _graphics;
 	private Audio _audio;
 	private Input _input;
 	private IApp _app;
 	private Logger _logger;
-	private Configuration _config;
+	private Config _config;
 	private bool _running = true;
 
-	public this(IApp app, Configuration config)
+	this(IApp app, in Config config)
 	{
 		_app = app;
 		_config = config;
 	}
 
-	public void run()
+	void run()
 	{
 		_graphics = new Graphics(_app, _config);
 		_audio = new Audio;
@@ -77,7 +78,11 @@ public class Engine
 		Core.input = _input;
 		Core.logger = _logger;
 
-		_graphics.createContext();
+		if(!_graphics.createContext())
+		{
+			writeln("Unnable to create context");
+			return;
+		}
 		_input.windowHandleChanged(_graphics.windowHandle());
 
 		while (_running)
@@ -102,8 +107,22 @@ public class Engine
 		_app.dispose();
 	}
 
-	public void exit()
+	void exit()
 	{
 		_running = false;
+	}
+}
+
+class AppLogger : Logger
+{
+	this(LogLevel lv = LogLevel.all) @safe
+	{
+		super(lv);
+	}
+
+	override void writeLogMsg(ref LogEntry payload)
+	{
+		writeln(format("[%s] (%s:%s) %s", payload.logLevel, payload.funcName,
+				payload.line, payload.msg));
 	}
 }

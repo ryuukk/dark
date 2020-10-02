@@ -6,19 +6,19 @@ import std.algorithm.comparison;
 import std.stdio;
 import std.traits;
 
-public interface IPoolable
+interface IPoolable
 {
     void reset();
 }
 
-public abstract class Pool(T)
+abstract class Pool(T)
 {
-    public int maxCapacity = 0;
-    public int peak = 0;
-    public T[] freeObjects;
-    public int count = 0;
+    int maxCapacity = 0;
+    int peak = 0;
+    T[] freeObjects;
+    int count = 0;
 
-    public this(int initialSize = 16, int maxCapacity = 1024)
+    this(int initialSize = 16, int maxCapacity = 1024)
     {
         this.maxCapacity = maxCapacity;
         freeObjects.length = (initialSize);
@@ -26,7 +26,7 @@ public abstract class Pool(T)
 
     protected abstract T newObject();
 
-    public T obtain()
+    T obtain()
     {
         if (count == 0)
             return newObject();
@@ -35,7 +35,7 @@ public abstract class Pool(T)
         return freeObjects[count];
     }
 
-    public void free(T object)
+    void free(T object)
     {
         assert(object !is null, "object shouldn't be null");
     

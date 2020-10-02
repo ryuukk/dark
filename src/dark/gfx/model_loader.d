@@ -600,122 +600,122 @@ private void parseAttributes(ModelMesh modelMesh, JSONValue attributes)
     }
 }
 
-public class ModelData
+class ModelData
 {
-    public string id;
-    public ModelMesh[] meshes;
-    public ModelMaterial[] materials;
-    public ModelNode[] nodes;
-    public ModelAnimation[] animations;
+    string id;
+    ModelMesh[] meshes;
+    ModelMaterial[] materials;
+    ModelNode[] nodes;
+    ModelAnimation[] animations;
 }
 
-public class ModelMesh
+class ModelMesh
 {
-    public string id;
-    public VertexAttribute[] attributes;
-    public float[] vertices;
-    public ModelMeshPart[] parts;
+    string id;
+    VertexAttribute[] attributes;
+    float[] vertices;
+    ModelMeshPart[] parts;
 }
 
-public class ModelMeshPart
+class ModelMeshPart
 {
-    public string id;
-    public short[] indices;
-    public int primitiveType;
+    string id;
+    short[] indices;
+    int primitiveType;
 }
 
-public class ModelMaterial
+class ModelMaterial
 {
-    public enum MaterialType
+    enum MaterialType
     {
         Lambert,
         Phong
     }
 
-    public string id;
+    string id;
 
-    public MaterialType type;
+    MaterialType type;
 
-    public Color ambient;
-    public Color diffuse;
-    public Color specular;
-    public Color emissive;
-    public Color reflection;
+    Color ambient;
+    Color diffuse;
+    Color specular;
+    Color emissive;
+    Color reflection;
 
-    public float shininess;
-    public float opacity = 1.0f;
+    float shininess;
+    float opacity = 1.0f;
 
-    public ModelTexture[] textures;
+    ModelTexture[] textures;
 }
 
-public class ModelTexture
+class ModelTexture
 {
-    public immutable static int USAGE_UNKNOWN = 0;
-    public immutable static int USAGE_NONE = 1;
-    public immutable static int USAGE_DIFFUSE = 2;
-    public immutable static int USAGE_EMISSIVE = 3;
-    public immutable static int USAGE_AMBIENT = 4;
-    public immutable static int USAGE_SPECULAR = 5;
-    public immutable static int USAGE_SHININESS = 6;
-    public immutable static int USAGE_NORMAL = 7;
-    public immutable static int USAGE_BUMP = 8;
-    public immutable static int USAGE_TRANSPARENCY = 9;
-    public immutable static int USAGE_REFLECTION = 10;
+    immutable static int USAGE_UNKNOWN = 0;
+    immutable static int USAGE_NONE = 1;
+    immutable static int USAGE_DIFFUSE = 2;
+    immutable static int USAGE_EMISSIVE = 3;
+    immutable static int USAGE_AMBIENT = 4;
+    immutable static int USAGE_SPECULAR = 5;
+    immutable static int USAGE_SHININESS = 6;
+    immutable static int USAGE_NORMAL = 7;
+    immutable static int USAGE_BUMP = 8;
+    immutable static int USAGE_TRANSPARENCY = 9;
+    immutable static int USAGE_REFLECTION = 10;
 
-    public string id;
-    public string fileName;
-    public Vec2 uvTranslation;
-    public Vec2 uvScaling;
-    public int usage;
+    string id;
+    string fileName;
+    Vec2 uvTranslation;
+    Vec2 uvScaling;
+    int usage;
 }
 
-public class ModelNode
+class ModelNode
 {
-    public string id;
-    public Vec3 translation = Vec3();
-    public Quat rotation = Quat.identity;
-    public Vec3 scale = Vec3(1, 1, 1);
-    public string meshId;
-    public ModelNodePart[] parts;
-    public ModelNode[] children;
+    string id;
+    Vec3 translation = Vec3();
+    Quat rotation = Quat.identity;
+    Vec3 scale = Vec3(1, 1, 1);
+    string meshId;
+    ModelNodePart[] parts;
+    ModelNode[] children;
 }
 
-public struct Bone
+struct Bone
 {
-    public string id;
-    public Mat4 transform;
+    string id;
+    Mat4 transform;
 
-    public this(string id, Mat4 transform)
+    this(string id, Mat4 transform)
     {
         this.id = id;
         this.transform = transform;
     }
 }
 
-public class ModelNodePart
+class ModelNodePart
 {
-    public string materialId;
-    public string meshPartId;
-    public Bone[] bones;
-    public int[][] uvMapping;
+    string materialId;
+    string meshPartId;
+    Bone[] bones;
+    int[][] uvMapping;
 }
 
-public class ModelAnimation
+class ModelAnimation
 {
-    public string id;
-    public ModelNodeAnimation[] nodeAnimations;
+    string id;
+    ModelNodeAnimation[] nodeAnimations;
 }
 
-public class ModelNodeAnimation
+class ModelNodeAnimation
 {
-    public string nodeId;
-    public ModelNodeKeyframe!Vec3[] translation;
-    public ModelNodeKeyframe!Quat[] rotation;
-    public ModelNodeKeyframe!Vec3[] scaling;
+    string nodeId;
+    ModelNodeKeyframe!Vec3[] translation;
+    ModelNodeKeyframe!Quat[] rotation;
+    ModelNodeKeyframe!Vec3[] scaling;
 }
 
-public class ModelNodeKeyframe(T)
+class ModelNodeKeyframe(T)
 {
-    public float keytime;
-    public T value;
+    float keytime;
+    T value;
 }
