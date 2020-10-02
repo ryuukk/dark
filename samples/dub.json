@@ -10,15 +10,12 @@
 	"targetName":"samples",
 	"targetType": "executable",
 	"targetPath": "bin",
-	"workingDirectory": "bin",
+    "workingDirectory": "bin",
+    
+    "importPath": ["../dark/src"],
 
 	"dependencies": {
-		"dark": {"path":"../", "version": "~master"},
-		"bindbc-glfw": "0.10.0",
-		"bindbc-loader": "0.3.1",
-		"bindbc-openal": "0.4.1",
-		"bindbc-opengl": "0.13.0",
-		"stb": "1.7.6"
+		"dark": {"path":"../"}
 	},
 
     "versions": [

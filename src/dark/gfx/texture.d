@@ -6,10 +6,9 @@ import std.math;
 
 import bindbc.opengl;
 import bindbc.opengl.gl;
-import stb.image;
 import dark.math;
 
-public enum TextureFilter
+enum TextureFilter
 {
     Nearest, // GL20.GL_NEAREST
     Linear, // GL20.GL_LINEAR
@@ -20,7 +19,7 @@ public enum TextureFilter
     MipMapLinearLinear, // GL20.GL_LINEAR_MIPMAP_LINEAR
 }
 
-public enum TextureWrap
+enum TextureWrap
 {
     MirroredRepeat, // GL20.GL_MIRRORED_REPEAT
     ClampToEdge, // GL20.GL_CLAMP_TO_EDGE
@@ -70,7 +69,7 @@ int getGLEnumFromTextureWrap(TextureWrap wrap)
     }
 }
 
-public abstract class GLTexture
+abstract class GLTexture
 {
     private GLenum glTarget;
     private GLuint glHandle;
@@ -79,65 +78,65 @@ public abstract class GLTexture
     private TextureWrap uWrap = TextureWrap.ClampToEdge;
     private TextureWrap vWrap = TextureWrap.ClampToEdge;
 
-    public this(GLenum glTarget)
+    this(GLenum glTarget)
     {
         GLuint handle;
         glGenTextures(1, &handle);
         this(glTarget, handle);
     }
-    public this(GLenum glTarget, GLuint glHandle)
+    this(GLenum glTarget, GLuint glHandle)
     {
         this.glTarget = glTarget;
         this.glHandle = glHandle;
     }
 
-    public abstract int getWidth();
+    abstract int getWidth();
 
-    public abstract int getHeight();
+    abstract int getHeight();
 
-    public abstract int getDepth();
+    abstract int getDepth();
 
-    public abstract bool isManaged();
+    abstract bool isManaged();
 
-    public abstract void reload();
+    abstract void reload();
 
-    public void bind()
+    void bind()
     {
         glBindTexture(glTarget, glHandle);
     }
 
-    public void bind(int unit)
+    void bind(int unit)
     {
         glActiveTexture(GL_TEXTURE0 + unit);
         glBindTexture(glTarget, glHandle);
     }
 
-    public TextureFilter getMinFilter()
+    TextureFilter getMinFilter()
     {
         return minFilter;
     }
 
-    public TextureFilter getMagFilter()
+    TextureFilter getMagFilter()
     {
         return magFilter;
     }
 
-    public TextureWrap getUWrap()
+    TextureWrap getUWrap()
     {
         return uWrap;
     }
 
-    public TextureWrap getVWrap()
+    TextureWrap getVWrap()
     {
         return vWrap;
     }
 
-    public int getTextureObjectHandle()
+    int getTextureObjectHandle()
     {
         return glHandle;
     }
 
-    public void unsafeSetWrap(TextureWrap u, TextureWrap v, bool force = false)
+    void unsafeSetWrap(TextureWrap u, TextureWrap v, bool force = false)
     {
         if ((force || uWrap != u))
         {
@@ -152,7 +151,7 @@ public abstract class GLTexture
         }
     }
 
-    public void setWrap(TextureWrap u, TextureWrap v)
+    void setWrap(TextureWrap u, TextureWrap v)
     {
         this.uWrap = u;
         this.vWrap = v;
@@ -161,7 +160,7 @@ public abstract class GLTexture
         glTexParameteri(glTarget, GL_TEXTURE_WRAP_T, getGLEnumFromTextureWrap(v));
     }
 
-    public void unsafeSetFilter(TextureFilter minFilter, TextureFilter magFilter, bool force = false)
+    void unsafeSetFilter(TextureFilter minFilter, TextureFilter magFilter, bool force = false)
     {
         if ((force || this.minFilter != minFilter))
         {
@@ -176,7 +175,7 @@ public abstract class GLTexture
         }
     }
 
-    public void setFilter(TextureFilter minFilter, TextureFilter magFilter)
+    void setFilter(TextureFilter minFilter, TextureFilter magFilter)
     {
         this.minFilter = minFilter;
         this.magFilter = magFilter;
@@ -185,7 +184,7 @@ public abstract class GLTexture
         glTexParameteri(glTarget, GL_TEXTURE_MAG_FILTER, getGLEnumFromTextureFilter(magFilter));
     }
 
-    public void deletee()
+    void deletee()
     {
         if (glHandle != 0)
         {
@@ -195,41 +194,41 @@ public abstract class GLTexture
     }
 }
 
-public class Texture2D : GLTexture
+class Texture2D : GLTexture
 {
     private int _width;
     private int _height;
 
-    public this(GLenum glTarget)
+    this(GLenum glTarget)
     {
         super(glTarget);
     }
 
-    public override int getWidth()
+    override int getWidth()
     {
         return _width;
     }
-    public override int getHeight()
+    override int getHeight()
     {
         return _height;
     }
 
-    public override int getDepth()
+    override int getDepth()
     {
         return 0;
     }
 
-    public override bool isManaged()
+    override bool isManaged()
     {
         return true;
     }
 
-    public override void reload()
+    override void reload()
     {
         
     }
 
-    public void setData(Image data, int w, int h)
+    void setData(ref ubyte[] data, int w, int h)
     {
         _width = w;
         _height = h;
@@ -245,35 +244,37 @@ public class Texture2D : GLTexture
         glBindTexture(glTarget, 0);
     }
 
-    public static Texture2D fromFile(string path)
+    static Texture2D fromFile(string path)
     {
-        auto image = new Image(path);
+        // todo: check format
+        import imageformats;
+        auto f = read_image(path);
+        //auto image = new Image(path);
         auto tex = new Texture2D(GL_TEXTURE_2D);
-        tex.setData(image, image.w(), image.h());
+        tex.setData(f.pixels, f.w, f.h);
         return tex;
     }
-
 }
 
 
-public class TextureRegion
+class TextureRegion
 {
     Texture2D _texture;
     float _u, _v;
     float _u2, _v2;
     int _regionWidth, _regionHeight;
 
-    public float u() { return _u;}
-    public float v() { return _v;}
+    float u() { return _u;}
+    float v() { return _v;}
 
-    public float u2() { return _u2;}
-    public float v2() { return _v2;}
+    float u2() { return _u2;}
+    float v2() { return _v2;}
 
-    public this()
+    this()
     {
     }
 
-    public this(Texture2D texture)
+    this(Texture2D texture)
     {
         if (texture is null)
             throw new Exception("texture cannot be null.");
@@ -281,41 +282,41 @@ public class TextureRegion
         setRegioni(0, 0, texture.getWidth(), texture.getHeight());
     }
 
-    public this(Texture2D texture, int width, int height)
+    this(Texture2D texture, int width, int height)
     {
         _texture = texture;
         setRegioni(0, 0, width, height);
     }
 
-    public this(Texture2D texture, int x, int y, int width, int height)
+    this(Texture2D texture, int x, int y, int width, int height)
     {
         _texture = texture;
         setRegioni(x, y, width, height);
     }
 
-    public this(Texture2D texture, float u, float v, float u2, float v2)
+    this(Texture2D texture, float u, float v, float u2, float v2)
     {
         _texture = texture;
         setRegionf(u, v, u2, v2);
     }
 
-    public this(TextureRegion region)
+    this(TextureRegion region)
     {
         setRegion(region);
     }
 
-    public this(TextureRegion region, int x, int y, int width, int height)
+    this(TextureRegion region, int x, int y, int width, int height)
     {
         setRegion(region, x, y, width, height);
     }
 
-    public void setRegion(Texture2D texture)
+    void setRegion(Texture2D texture)
     {
         _texture = texture;
         setRegioni(0, 0, texture.getWidth(), texture.getHeight());
     }
 
-    public void setRegioni(int x, int y, int width, int height)
+    void setRegioni(int x, int y, int width, int height)
     {
         float invTexWidth = 1f / _texture.getWidth();
         float invTexHeight = 1f / _texture.getHeight();
@@ -325,7 +326,7 @@ public class TextureRegion
         _regionHeight = cast(int) abs(height);
     }
 
-    public void setRegionf(float u, float v, float u2, float v2)
+    void setRegionf(float u, float v, float u2, float v2)
     {
         int texWidth = _texture.getWidth();
         int texHeight = _texture.getHeight();
@@ -352,98 +353,98 @@ public class TextureRegion
         _v2 = v2;
     }
 
-    public void setRegion(TextureRegion region)
+    void setRegion(TextureRegion region)
     {
         _texture = region._texture;
         setRegionf(region._u, region._v, region._u2, region._v2);
     }
 
-    public void setRegion(TextureRegion region, int x, int y, int width, int height)
+    void setRegion(TextureRegion region, int x, int y, int width, int height)
     {
         _texture = region._texture;
         setRegioni(region.getRegionX() + x, region.getRegionY() + y, width, height);
     }
 
-     public Texture2D getTexture()
+     Texture2D getTexture()
         {
             return _texture;
         }
 
-        public void setTexture(Texture2D texture)
+        void setTexture(Texture2D texture)
         {
             _texture = texture;
         }
 
-        public float getU()
+        float getU()
         {
             return _u;
         }
 
-        public void setU(float u)
+        void setU(float u)
         {
             _u = u;
             _regionWidth = cast(int) round(abs(_u2 - u) * _texture.getWidth());
         }
 
-        public float getV()
+        float getV()
         {
             return _v;
         }
 
-        public void setV(float v)
+        void setV(float v)
         {
             _v = v;
             _regionHeight = cast(int) round(abs(_v2 - v) * _texture.getHeight());
         }
 
-        public float getU2()
+        float getU2()
         {
             return _u2;
         }
 
-        public void setU2(float u2)
+        void setU2(float u2)
         {
             _u2 = u2;
             _regionWidth = cast(int) round(abs(u2 - _u) * _texture.getWidth());
         }
 
-        public float getV2()
+        float getV2()
         {
             return _v2;
         }
 
-        public void setV2(float v2)
+        void setV2(float v2)
         {
             _v2 = v2;
             _regionHeight = cast(int) round(abs(v2 - _v) * _texture.getHeight());
         }
 
-        public int getRegionX()
+        int getRegionX()
         {
             return cast(int) round(_u * _texture.getWidth());
         }
 
-        public void setRegionX(int x)
+        void setRegionX(int x)
         {
             setU(x / cast(float) _texture.getWidth());
         }
 
-        public int getRegionY()
+        int getRegionY()
         {
             return cast(int) round(_v * _texture.getHeight());
         }
 
-        public void setRegionY(int y)
+        void setRegionY(int y)
         {
             setV(y / cast(float) _texture.getHeight());
         }
 
-        public int getRegionWidth()
+        int getRegionWidth()
         {
             return _regionWidth;
         }
 
-        public void setRegionWidth(int width)
+        void setRegionWidth(int width)
         {
             if (isFlipX())
             {
@@ -455,12 +456,12 @@ public class TextureRegion
             }
         }
 
-        public int getRegionHeight()
+        int getRegionHeight()
         {
             return _regionHeight;
         }
 
-        public void setRegionHeight(int height)
+        void setRegionHeight(int height)
         {
             if (isFlipY())
             {
@@ -472,7 +473,7 @@ public class TextureRegion
             }
         }
 
-        public void flip(bool x, bool y)
+        void flip(bool x, bool y)
         {
             if (x)
             {
@@ -489,32 +490,32 @@ public class TextureRegion
             }
         }
 
-        public bool isFlipX()
+        bool isFlipX()
         {
             return _u > _u2;
         }
 
-        public bool isFlipY()
+        bool isFlipY()
         {
             return _v > _v2;
         }
 }
 
-public class TextureDescriptor
+class TextureDescriptor
 {
-    public GLTexture texture;
-	public TextureFilter minFilter;
-	public TextureFilter magFilter;
-	public TextureWrap uWrap;
-	public TextureWrap vWrap;
+    GLTexture texture;
+	TextureFilter minFilter;
+	TextureFilter magFilter;
+	TextureWrap uWrap;
+	TextureWrap vWrap;
 }
 
-public class TextureBinder
+class TextureBinder
 {
-    public const int ROUNDROBIN = 0;
-    public const int WEIGHTED = 1;
+    const int ROUNDROBIN = 0;
+    const int WEIGHTED = 1;
 
-	public const int MAX_UNITS = 32;
+	const int MAX_UNITS = 32;
 
     private int _offset;
 	private int _count;
@@ -551,7 +552,7 @@ public class TextureBinder
 		return max;
 	}
 
-    public void begin()
+    void begin()
     {
 		for (int i = 0; i < _count; i++) {
 			_textures[i] = null;
@@ -559,12 +560,12 @@ public class TextureBinder
 		}
     }
 
-    public void end()
+    void end()
     {
         glActiveTexture(GL_TEXTURE0);
     }
 
-    public int bind(TextureDescriptor textureDesc)
+    int bind(TextureDescriptor textureDesc)
     {
         return bindTexture(textureDesc, true);
     }
