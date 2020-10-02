@@ -1,28 +1,22 @@
 {
 	"name": "samples",
+	"description": "samples for dark framework",
 	"authors": [
 		"ryuukk_"
 	],
-	"description": "samples for dark framework",
-	"copyright": "Copyright © 2020, ryuukk_",
-	"license": "proprietary",
-
+    "copyright": "Copyright © 2020, ryuukk_",    
+    "importPath": ["../dark/src"],
 	"targetName":"samples",
 	"targetType": "executable",
 	"targetPath": "bin",
     "workingDirectory": "bin",
-    
-    "importPath": ["../dark/src"],
-
 	"dependencies": {
 		"dark": {"path":"../"}
 	},
-
     "versions": [
 		"GL_33",
 		"GLFW_32"
 	],
-	
 	"buildTypes": {
 		"release": {
 			"buildOptions": [
@@ -47,8 +41,6 @@
             "buildOptions": ["debugMode", "debugInfo"]
 		}
     },
-    
-
     "configurations": [
         {
             "name": "hello",

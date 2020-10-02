@@ -1,8 +1,18 @@
 {
+	"name": "dark",
+	"description": "game framework",
 	"authors": [
 		"ryuukk_"
 	],
 	"copyright": "Copyright © 2020, ryuukk_",
+	"importPaths": [
+		"src/"
+	],
+	"sourcePaths": [
+		"src/"
+	],
+	"targetName": "dark",
+	"targetType": "sourceLibrary",
 	"dependencies": {
 		"automem": "0.6.3",
 		"bindbc-glfw": "0.10.1",
@@ -11,16 +21,6 @@
 		"bindbc-opengl": "0.13.0",
 		"imageformats": "~>7.0.2"
 	},
-	"description": "game framework",
-	"importPaths": [
-		"src/"
-	],
-	"name": "dark",
-	"sourcePaths": [
-		"src/"
-	],
-	"targetName": "dark",
-	"targetType": "sourceLibrary",
 	"versions": [
 		"GL_33",
 		"GLFW_32"
