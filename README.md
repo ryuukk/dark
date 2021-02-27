@@ -1,3 +1,8 @@
+# INFO
+
+The project is being rewritten to not use the GC at all, more info comming soon!
+
+
 # Run the samples
 
 - Make sure you got D installed in your system
